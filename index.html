@@ -13,13 +13,13 @@
         <!-- Our CSS -->
         <link rel="stylesheet" type="text/css" href="static/css/style.css">
         <!-- Title (shown in browser tab)-->
-        <title>UV Index and temperatures for Western Australia</title>
+        <title>UV Index for Western Australia</title>
   </head>
 
   <body>
         <!-- Nav bar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-light">
-            <a class="navbar-brand">UV Index and temperatures for Western Australia</a>
+            <a class="navbar-brand">UV Index for Western Australia</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -27,10 +27,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="index.html">UV Index</a>
+                        <a class="nav-link" href="index.html">Current UV Index</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="temperature.html">Temperature</a>
+                        <a class="nav-link" href="historical.html">Historic UV Index</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="about.html">About</a>
@@ -42,7 +42,10 @@
         <div class="container">
             <!-- First info -->
             <div class='row'>
-                <div class='col-12'> <h1>UV Index values</h1> </div>
+                <div class='col-12'> 
+                    <h1>Current UV Index Values</h1> 
+                    <h2><span id="date"></span> and the next 8 day forecast</h2>
+                </div>
             </div>
             <div class='row'>             
                 <div class="col-lg-12">
@@ -57,7 +60,7 @@
             </div>
             <!-- Second info -->
             <div class='row'>
-                <div class='col-12'> <h1>UV Index search/ UV temp correlation?</h1></div>
+                <div class='col-12'> <h1>UV Index search</h1></div>
             </div>
             <div class='row'>
                 <!-- search box -->
@@ -66,11 +69,9 @@
                         <h3 class='text-center'>Filter Search</h3>
                         <div class='form-group'>
                             <label for='City'>Choose a City or Town</label>
-                                <input class='form-control' id='City' type="text" placeholder="Perth">
-                            <label for='State'>Choose a Language</label>
-                                <select class='form-control' id='Language'>
-                                    <option></option>
-                                </select>
+                            <select class='form-control' id='City'>
+                                <option>Perth</option>
+                            </select>
                             <button id='button' type='submit' class='btn btn-default btn-block'>Submit</button>
                             <button id='button2' type='reset' class='btn btn-default btn-block'>Reset to Perth</button>
                         </div>
@@ -110,8 +111,10 @@
                 </div>
                 <div class='col-lg-6'>
                     <div class="box">
-                        <figure>
+                        <figure class='text-center'>
                             <img src='static/images/UV-index-scale.jpg' class='float-left' width='540' alt='UV_index_values'>
+                            <!-- the div where we inject the gauge chart -->
+                            <div id='gaugeChart'></div>
                         </figure>
                         <aside>
                             Image source: buckheadprimarycare.com
@@ -122,7 +125,7 @@
         </div>
        
         <footer class='footer'>
-            <p class='bottom'>UV Index for Western Australia</p>
+            <p class='bottom'>Current UV Index for Western Australia</p>
         </footer> 
 
     <!-- Leaflet JS-->
