@@ -46,7 +46,7 @@ h1 {
 }
 
 h2 {
-    font-size: 30pt;
+    font-size: 20pt;
     text-align: center;
     color: #003b46;
     
@@ -96,5 +96,6 @@ button {
     margin: 10px 0px 0px 10px;
     position: sticky;
     bottom: 0px;
+    background-color: #C4DFE6;
 }
   
