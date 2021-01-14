@@ -1,7 +1,7 @@
-info = 'static/python/analysis/fcst_data.json';
+info = 'static/python/analysis/hstr_data.json';
 // cities = '';
 
-// date for header of index page
+// date for header of historical page
 n =  new Date();
 y = n.getFullYear();
 m = n.getMonth() + 1;
@@ -17,27 +17,20 @@ function init() {
     // extract the data from json file
     d3.json((info), function(data) {
         console.log('yes');
-        var data = (data);
-        console.log(data);
 
         // run through the data and add the information in dropdown
-        cities.forEach((sample) => {
+        data.forEach((sample) => {
             Object.entries(sample).forEach(([key, value]) => {
                 // add one line for each sample in the dropdown menu showing the City value
                 if (key === 'City') {cityDropdown.append('option').text(value)};
-                // extract info for Perth
-                if (key === 'City' & value === 'Perth') {var perth = sample};
-                return perth;
             });
         }); 
         // set filter seach output for Perth
         cityDropdown = 'Perth';
-        console.log(perth);
-        
-        // variables for line chart
-        var xValues = perth.date;
-        var yValuesLeft = perth.data.uv-index;
-        var yValuesRight = perth.max-temperature;
+
+        // // variables for line chart
+        // var xValues = data.date[];
+        // var yValuesLeft = data.uv-index[];
 
         // build line chart
         var traceUV = {
@@ -48,38 +41,21 @@ function init() {
             color: '#A43820'
         };
 
-        var traceTemp = {
-            x: xValues,
-            y: yValuesRight,
-            name: 'Maximum Temperature (C)',
-            type: 'bar',
-            color: '#46211A',
-        };
-
         var layoutGraph = {
-            Title: 'UV Index and Maximum Temperature',
+            Title: 'Historical UV Index',
             yaxis: {title: 'UV Index'},
-            yaxis2: {
-                title: 'Maximum Temperature (C)',
-                titlefont: {color: '#A43820'},
-                tickfont: {color: '#46211A'},
-                overlaying: 'y',
-                side: 'right',
-            }
         };
 
-        Plotly.newPlot('graph', [traceUV, traceTemp], layoutGraph);
+        Plotly.newPlot('graph', [traceUV], layoutGraph);
 
         // create gauge chart
         let gauge = {
             domain: {row: 0, column: 1},
-            value: data.uvIndex[0],
-            title: 'UV Index TODAY',
+            title: 'UV Index Info',
             type: 'indicator',
             mode: 'gauge+number',
             gauge: {
                 axis: {range: [1, 16]},
-                bar: {color: 'darkblue'},
                 steps: [
                     {range: [1, 3], color: 'yellowgreen'},
                     {range: [3, 6], color: 'gold'},
@@ -99,9 +75,8 @@ init();
 
 // function for updating the page
 function updatePage() {
-    d3.event.preventDefault();
     // extract the data from json file
-    d3.json("static/data/samples.json").then((data) => {
+    d3.json(("static/data/samples.json"), function(data) {
         // save the City to a variable
         chosenCity = cityDropdown.property('City');
         
@@ -126,7 +101,7 @@ function updatePage() {
 // when pressing submit button or press enter, use function
 let submitButton = d3.select('#button');
 let form = d3.select('#searchForm');
-form.on('submit', updatePage);
+form.on('submit', updatePage());
 
 let resetButton = d3.select('#button2');
-form.on('reset', init);
+form.on('reset', init());
