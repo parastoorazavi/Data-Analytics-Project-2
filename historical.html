@@ -23,17 +23,17 @@
   <body>
         <!-- Nav bar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-light">
-            <a class="navbar-brand">UV Index for Western Australia</a>
+            <a class="navbar-brand">Historical UV Index for Western Australia</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
             </button>
             
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" href="index.html">Current UV Index</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item active">
                         <a class="nav-link" href="historical.html">Historical UV Index</a>
                     </li>
                     <li class="nav-item">
@@ -47,8 +47,8 @@
             <!-- First info -->
             <div class='row'>
                 <div class='col-12'> 
-                    <h1>Current UV Index Values</h1> 
-                    <h2><span id="date"></span> and the next 8 day forecast</h2>
+                    <h1>Historical UV Index Values</h1> 
+                    <h2><span id="date"></span> (last year) and the next 8 day forecast</h2>
                 </div>
             </div>
             <div class='row'>             
@@ -64,7 +64,7 @@
             </div>
             <!-- Second info -->
             <div class='row'>
-                <div class='col-12'> <h1>UV Index search</h1></div>
+                <div class='col-12'> <h1>Historical UV Index search</h1></div>
             </div>
             <div class='row'>
                 <!-- search box -->
@@ -76,6 +76,8 @@
                             <select class='form-control' id='City'>
                                 <option></option>
                             </select>
+                            <label for='City'>Choose a date in 2020</label>
+                            <input class="form-control" id="datetime" type="text" placeholder="2020/01/01">
                             <button id='button' type='submit' class='btn btn-default btn-block'>Submit</button>
                             <button id='button2' type='reset' class='btn btn-default btn-block'>Reset to Perth</button>
                         </div>
@@ -93,29 +95,20 @@
             </div>
             <!-- Third info -->
             <div class='row'>
-                <div class='col-12'> <h1>UV Index health information</h1> </div>
+                <div class='col-12'> <h1>UV Index information</h1> </div>
             </div>
             <div class='row'>             
                 <div class="col-lg-6">
                     <div class='box info'>
-                        <h4>UV Radiation - a healthy balance</h4>
+                        <h4>History</h4>
                         <p>
-                            The sun's ultraviolet (UV) radiation is the major cause of skin cancer and also the best source of vitamin D. In Australia we need to balance the risk of skin cancer from too much sun exposure with maintaining adequate vitamin D levels.
-                            Australia has the highest incidence of skin cancer in the world. More than 1700 Australians die from skin cancer each year, and two out of three Australians will get a skin cancer before the age of 70.
-                            You can't see and you can't feel ultraviolet (UV) radiation - heat or high temperatures are not an indication of UV radiation.
-                            We need vitamin D for good health and to keep bones and muscles strong. Sensible sun protection does not put people at risk of vitamin D deficiency.                        </p>
-                        <h4>5 steps to be SunSmart</h4>
-                        <p>
-                            Cancer Council Australia recommends Australians take five steps to protect against sun damage when the SunSmart UV Alert indicates the UV Index is at 3 or above:                        </p>
+                            The ultraviolet index, or UV index, is an international standard measurement of the strength of sunburn-producing ultraviolet (UV) radiation at a particular place and time. The scale was developed by Canadian scientists in 1992, and then adopted and standardized by the UN's World Health Organization and World Meteorological Organization in 1994. It is primarily used in daily forecasts aimed at the general public, and is increasingly available as an hourly forecast as well.
                         </p>
-                        <ol>
-                            <li>SLIP on some sun-protective clothing - that covers as much skin as possible</li>
-                            <li>SLOP on SPF30+ sunscreen - make sure it is broad spectrum and water resistant. Put it on 20 minutes before you go outdoors and every two hours afterwards. Sunscreen should never be used to extend the time you spend in the sun.</li>
-                            <li>SLAP on a hat - that protects your face, head, neck and ears</li>
-                            <li>SEEK shade</li>
-                            <li>SLIDE on some sunglasses - make sure they meet Australian Standards</li>
-                        </ol>
-                        <aside>Information source: Bureau of Metereology</aside>
+                        <h4>Purpose</h4>
+                        <p>
+                            The UV index is designed as an open-ended linear scale, directly proportional to the intensity of UV radiation that causes sunburn on human skin. For example, if a light-skinned individual (without sunscreen) begins to sunburn in 30 minutes at UV index 6, then that individual should expect to sunburn in about 15 minutes at UV index 12 – twice the UV, twice as fast.
+                        </p>
+                        <aside>Information source: Wikipidia</aside>
                     </div>
                 </div>
                 <div class='col-lg-6'>
@@ -134,7 +127,7 @@
         </div>
        
         <footer class='footer'>
-            <p class='bottom'>Current UV Index for Western Australia</p>
+            <p class='bottom'>Historical UV Index for Western Australia</p>
         </footer> 
 
     <!-- Leaflet JS-->
@@ -142,7 +135,6 @@
     integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
     crossorigin=""></script>
     <!-- d3 JavaScript -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/5.5.0/d3.js'></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -151,7 +143,7 @@
     <script src="https://d3js.org/d3-contour.v2.min.js"></script>  
     <!-- Our JS -->
     <script type="text/javascript" src="static/js/config.js"></script>
-    <script type="text/javascript" src="static/js/logic.js"></script>
+    <script type="text/javascript" src="static/js/logic2.js"></script>
 
   </body>
 </html>
