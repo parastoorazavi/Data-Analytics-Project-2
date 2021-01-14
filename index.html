@@ -8,6 +8,8 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
         <!-- Plot.ly -->
         <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <!-- Load d3.js -->
+        <script src="https://d3js.org/d3.v4.js"></script>
         <!-- Leaflet CSS -->
         <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
@@ -72,7 +74,7 @@
                         <div class='form-group'>
                             <label for='City'>Choose a City or Town</label>
                             <select class='form-control' id='City'>
-                                <option>Perth</option>
+                                <option></option>
                             </select>
                             <button id='button' type='submit' class='btn btn-default btn-block'>Submit</button>
                             <button id='button2' type='reset' class='btn btn-default btn-block'>Reset to Perth</button>
@@ -114,9 +116,9 @@
                 <div class='col-lg-6'>
                     <div class="box">
                         <figure class='text-center'>
-                            <!-- <img src='static/images/UV-index-scale.jpg' class='float-left' width='540' alt='UV_index_values'> -->
                             <!-- the div where we inject the gauge chart -->
-                            <div id='gaugeChart'></div>
+                            <div id='gaugeChart'></div><br>
+                            <img src='static/images/UV-index-scale.jpg' class='float-left' width='540' alt='UV_index_values'>
                         </figure>
                         <aside>
                             Image source: buckheadprimarycare.com

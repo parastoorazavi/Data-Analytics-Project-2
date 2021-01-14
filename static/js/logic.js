@@ -10,19 +10,63 @@ document.getElementById("date").innerHTML = n.toDateString(d + m + y, { month: '
 // select the dropdown menu input
 let cityDropdown = d3.select('#City');
 
-// function to show infor when the page is loaded
+// function to show info when the page is loaded
 function init() {
     console.log('hello');
-    // set filter seach output for Perth
-    
     // extract the data from json file
     d3.json(info).then((data) => {
         console.log('yes');
-        let uvIndex = uv-index[0];
+
+        // run through the data and add the information in dropdown
+        samples.forEach((sample) => {
+            Object.entries(sample).forEach(([key, value]) => {
+                // add one line for each sample in the dropdown menu showing the City value
+                if (key === 'City') {cityDropdown.append('option').text(value)};
+            });
+        }); 
+        // set filter seach output for Perth
+        cityDropdown = 'Perth';
+
+        // variables for line chart
+        var xValues = data.date;
+        var yValuesLeft = data.uv-index;
+        var yValuesRight = data.max-temperature;
+
+        // build line chart
+        var traceUV = {
+            x: xValues,
+            y: yValuesLeft,
+            name: 'UV Index',
+            type: 'bar',
+            color: '#A43820'
+        };
+
+        var traceTemp = {
+            x: xValues,
+            y: yValuesRight,
+            name: 'Maximum Temperature (C)',
+            type: 'bar',
+            color: '#46211A',
+        };
+
+        var layoutGraph = {
+            Title: 'UV Index and Maximum Temperature',
+            yaxis: {title: 'UV Index'},
+            yaxis2: {
+                title: 'Maximum Temperature (C)',
+                titlefont: {color: '#A43820'},
+                tickfont: {color: '#46211A'},
+                overlaying: 'y',
+                side: 'right',
+            }
+        };
+
+        Plotly.newPlot('graph', [traceUV, traceTemp], layoutGraph);
+
         // create gauge chart
         let gauge = {
             domain: {row: 0, column: 1},
-            value: uvIndex,
+            value: data.uvIndex[0],
             title: 'UV Index TODAY',
             type: 'indicator',
             mode: 'gauge+number',
@@ -35,13 +79,10 @@ function init() {
                     {range: [6, 8], color: 'orange'},
                     {range: [8, 11], color: 'darkgoldenrod'},
                     {range: [11, 16], color: 'red'},
-                    // {range: [5, 6], color: 'palegreen'},
-                    // {range: [6, 7], color: 'palegreen'},
-                    // {range: [7, 8], color: 'chartreuse'},
-                    // {range: [8, 9], color: 'chartreuse'},
                 ]
             }
-        }
+        };
+
         Plotly.newPlot('gaugeChart', [gauge]);
     });
 };
@@ -57,9 +98,22 @@ function updatePage() {
         chosenCity = cityDropdown.property('City');
         
         // variable for City info
-        let metadata = data.metadata;
-        let metadataCity = (metadata.filter(record => record.id == chosenCity));
-        metadataCity = metadataCity[0];
+        // let metadata = data.metadata;
+        let metadataCity = (data.filter(record => record.city == chosenCity));
+        dataCity = metadataCity[0];
 
+        // variables for line chart
+        var xValues = dataCity.date;
+        var yValuesLeft = dataCity.uv-index;
+        var yValuesRight = dataCity.max-temperature;
+
+        // restyle the linegraph with chosen city data
+        Plotly.restyle();
+
+        // update gauge chart
+        Plotly.restyle("gaugeChart", "value", [dataCity.uv-index]);
     });
 };
+
+// Add event listener for City change dropdown
+d3.select("#City").on("change", updatePage);
