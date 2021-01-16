@@ -71,7 +71,7 @@ def apiwa():
     class historical(Base):
         __tablename__ = 'weather_hist'
         index = Column(Integer, primary_key=True)
-        date = Column(String)
+        date = Column(Date)
         latitude= Column(Integer)
         longitude = Column(Integer)
         uv_index = Column(Integer)
@@ -103,7 +103,7 @@ def apicity():
     class historicalcity(Base2):
         __tablename__ = 'weather_city_hist'
         index = Column(Integer, primary_key=True)
-        date = Column(String)
+        date = Column(Date)
         city = Column(String)
         latitude= Column(Integer)
         longitude = Column(Integer)
