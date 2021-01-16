@@ -8,7 +8,7 @@ from sqlalchemy import create_engine, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, Integer, String, Float, Date, Numeric
 
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 
 import datetime as dt
 
@@ -124,6 +124,15 @@ def apicity():
         listcity.append(row)
  
     return jsonify(listcity)
+
+
+@app.route("/historical")
+def historical():
+    return render_template('historical.html')
+
+@app.route("/about")
+def about():
+    return render_template('about.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

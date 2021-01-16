@@ -1,7 +1,7 @@
-var info = 'static/python/analysis/hstr_data.json';
+var info = 'static/python/analysis/fcst_data.json';
 var cities = 'static/python/analysis/wa_cities.json';
 
-// date for header of historical page
+// date for header of index page
 n =  new Date();
 y = n.getFullYear();
 m = n.getMonth() + 1;
@@ -15,25 +15,32 @@ let cityDropdown = d3.select('#City');
 function init() {
     console.log('hello');
     // extract the data from json file
-    d3.json((info), function(data) {
+    d3.json((info, cities), function(data) {
         console.log('yes');
-
-        var data = data[0];
-        console.log(data); // undefined
+        console.log(info);
+        console.log(cities);
         
+        var data = data[0];
+        console.log(data); // undefined??
+
         // run through the data and add the information in dropdown
         cities.forEach((sample) => {
             Object.entries(sample).forEach(([key, value]) => {
                 // add one line for each sample in the dropdown menu showing the City value
-                if (key === 'City') {cityDropdown.append('option').text(value)};
+                if (key === 'city') {cityDropdown.append('option').text(value)};
+                // extract info for Perth
+                if (key === 'city' & value === 'Perth') {var perth = sample};
+                return perth;
             });
         }); 
         // set filter seach output for Perth
         cityDropdown = 'Perth';
+        console.log(perth);
 
-        // // variables for line chart
-        // var xValues = data.date[];
-        // var yValuesLeft = data.uv-index[];
+        // variables for line chart
+        var xValues = perth.date;
+        var yValuesLeft = perth.data.uv-index;
+        var yValuesRight = perth.max-temperature;
 
         // build line chart
         var traceUV = {
@@ -44,12 +51,27 @@ function init() {
             color: '#A43820'
         };
 
-        var layoutGraph = {
-            Title: 'Historical UV Index',
-            yaxis: {title: 'UV Index'},
+        var traceTemp = {
+            x: xValues,
+            y: yValuesRight,
+            name: 'Maximum Temperature (C)',
+            type: 'bar',
+            color: '#46211A',
         };
 
-        Plotly.newPlot('graph', [traceUV], layoutGraph);
+        var layoutGraph = {
+            Title: 'UV Index and Maximum Temperature',
+            yaxis: {title: 'UV Index'},
+            yaxis2: {
+                title: 'Maximum Temperature (C)',
+                titlefont: {color: '#A43820'},
+                tickfont: {color: '#46211A'},
+                overlaying: 'y',
+                side: 'right',
+            }
+        };
+
+        Plotly.newPlot('graph', [traceUV, traceTemp], layoutGraph);
 
         // create gauge chart
         let gauge = {
@@ -80,8 +102,9 @@ init();
 
 // function for updating the page
 function updatePage() {
+    d3.event.preventDefault();
     // extract the data from json file
-    d3.json(("static/data/samples.json"), function(data) {
+    d3.json("static/data/samples.json").then((data) => {
         // save the City to a variable
         chosenCity = cityDropdown.property('City');
         
@@ -89,22 +112,6 @@ function updatePage() {
         // let metadata = data.metadata;
         let metadataCity = (data.filter(record => record.city == chosenCity));
         dataCity = metadataCity[0];
-
-        // function to add 8 days to the selected date
-        function addDays(date, days) {
-            var result = new Date(date);
-            result.setDate(result.getDate() + days);
-            return result;
-        };, 
-            // or
-        var someDate = new Date();
-        var numberOfDaysToAdd = 8;
-        someDate.setDate(someDate.getDate() + numberOfDaysToAdd); 
-            // Formatting to dd/mm/yyyy :
-        var dd = someDate.getDate();
-        var mm = someDate.getMonth() + 1;
-        var y = someDate.getFullYear();
-        var someFormattedDate = dd + '/'+ mm + '/'+ y;
 
         // variables for line chart
         var xValues = dataCity.date;
@@ -122,7 +129,7 @@ function updatePage() {
 // when pressing submit button or press enter, use function
 let submitButton = d3.select('#button');
 let form = d3.select('#searchForm');
-form.on('submit', updatePage());
+form.on('submit', updatePage);
 
 let resetButton = d3.select('#button2');
-form.on('reset', init());
+form.on('reset', init);
