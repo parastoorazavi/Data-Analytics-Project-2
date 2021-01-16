@@ -15,10 +15,26 @@ var cityDropdown = d3.select('#City');
 function init() {
     console.log('hello');
     // extract the data from json file
-    d3.json((info, cities), function(data) {
+    d3.json((info), function(data) {
         console.log('yes');
-        console.log(info);
-        console.log(cities);
+        console.log(data);
+
+        var perth = []
+        // run through the data and add the information in dropdown
+        d3.json((cities), function(city) {        
+            // going only through the cities for the dropdown
+            Object.entries(city.city).forEach(([key, value]) => {
+                // add one line for each sample in the dropdown menu showing the City value
+                cityDropdown.append('option').text(value);
+                // // extract info for Perth
+                // if (value === 'Perth') {//use key value to extract lat and long};
+                // return perth;
+                
+            });
+            console.log(perth);
+        }); 
+            
+        
         
     });
 };
