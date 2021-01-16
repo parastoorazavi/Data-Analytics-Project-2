@@ -125,6 +125,9 @@ def apicity():
  
     return jsonify(listcity)
 
+@app.route("/index")
+def index():
+    return render_template('index.html')
 
 @app.route("/historical")
 def historical():

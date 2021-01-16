@@ -1,5 +1,5 @@
-var info = 'static/python/analysis/fcst_data.json';
-var cities = 'static/python/analysis/hstr_data_city.json';
+var info = 'http://127.0.0.1:5000/api/v1.0/wa';
+var cities = 'http://127.0.0.1:5000/api/v1.0/city';
 
 // date for header of index page
 n =  new Date();
