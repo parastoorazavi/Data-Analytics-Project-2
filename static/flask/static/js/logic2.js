@@ -11,7 +11,7 @@ m = n.getMonth() + 1;
 d = n.getDate();
 console.log(y);
 document.getElementById("date").innerHTML = n.toLocaleString(d + m + y, {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'});
-
+alert("hi");
 // select the dropdown menu input
 var cityDropdown = d3.select('#City');
 
