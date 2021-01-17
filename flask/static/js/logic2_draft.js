@@ -47,6 +47,7 @@ function init() {
         var layoutGraph = {
             Title: 'Historical UV Index',
             yaxis: {title: 'UV Index'},
+            scene: {bgcolor: "#BA5536"}
         };
 
         Plotly.newPlot('graph', [traceUV], layoutGraph);

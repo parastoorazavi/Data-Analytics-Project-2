@@ -1,17 +1,13 @@
-var info = 'http://127.0.0.1:5000/api/v1.0/city';
-var cities = 'static/python/analysis/wa_cities.json';
-
-// var info = 'static/flask/hist.sqlite';
-// var cities = 'static/flask/cities.sqlite';
+var info = 'http://127.0.0.1:5000/api/v1.0/wa';
+var cities = 'http://127.0.0.1:5000/api/v1.0/city';
 
 // date for header of historical page
 n =  new Date();
-y = n.getFullYear() - 1;
 m = n.getMonth() + 1;
 d = n.getDate();
-console.log(y);
-document.getElementById("date").innerHTML = n.toLocaleString(d + m + y, {weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'});
-alert("hi");
+y = n.setFullYear(n.getFullYear() - 1);
+document.getElementById("date").innerHTML = n.toLocaleString(d + m, {weekday: 'long', day: 'numeric', month: 'long'});
+
 // select the dropdown menu input
 var cityDropdown = d3.select('#City');
 
@@ -21,11 +17,144 @@ function init() {
     // extract the data from json file
     d3.json((info), function(data) {
         console.log('yes');
+        console.log(data);
+        
+        // run through the data and add the information in dropdown
+        d3.json((cities), function(city) {    
+            // empty list of cities
+            var perth = [];
+            
+            // city = city.slice(0,83); 
+            var cityList = [];
+            
+            // loop to get info from city list
+            for (i=0; i<city.length; i++) {
+                Object.entries(city[i]).forEach(([key, value]) => { 
+                    // console.log(key, value);
+                    // add one cities to the citiesList
+                    if (key === 'city') {cityList.push(value)};
+                    // extract info for Perth
+                    if (key === 'city' && value === 'Perth') {perth.push(city[i])};
+                });
+            };
+
+            console.log(perth);
+    
+            // reducing the cities list for the dropdown to 83 cities
+            cityList = cityList.slice(0,83);
+            // add cites list to dropdown menu
+            cityList.forEach((City) => {
+                // ad one line for each city
+                let line = cityDropdown.append('option');
+                // log each city in the array
+                line.text(City);
+            });
 
         
+        
+            // info date format for Perth line chart
+            n =  new Date();
+            var month = n.getMonth() + 1;
+            var dateL = '';
+          
+            if (month <10) {dateL = '2020-0'+ month + '-' + n.getDate() + ' 12:00:00'}
+            else dateL = '2020-'+ month + '-' + n.getDate() + ' 12:00:00';
+            
+            console.log(dateL);
+
+            // var xValues = [];
+            // var yValues = [];
+            // // get current + 8 day array for plot
+            
+            // for (i=0; i<perth.length; i++) {
+            //     Object.entries(perth[i]).forEach(([key, value]) => { 
+            //         // console.log(key, value);
+            //         //add one cities to the citiesList
+            //         // n =0;
+            //         // console.log('here'+dateL);
+            //         if (key === date && date === dateL) {console.log(perth[i].value); //xValues.push(value);
+            //             // for (n=0; n<10; n++);
+            //             // xValues.push(date.value) && yValues.push(uv_index.value);
+            //         };
+            //         // if (n = 9) {break};
+            //     });
+            // };
+            
+            console.log(xValues)
+            
+            // // variables for line chart
+            var xValues = ['16-01-2020', '17-01-2020', '18-01-2020', '19-01-2020', '20-01-2020', '21-01-2020', '22-01-2020', '23-01-2020', '24-01-2020'];
+            var yValuesHist = [3, 4, 14, 6, 15, 8, 3, 4, 7];
+            let yValuesUV = [3, 4, 14, 15, 6, 8, 3, 4, 7];
+
+            // build bar chart
+            var traceHist = {
+                x: xValues,
+                y: yValuesHist,
+                name: 'UV Index Historical',
+                type: 'bar',
+                marker: {color: '#a43820'},
+            };
+
+            // var traceCurrent = {
+            //     x: xValues,
+            //     y: yValuesUV,
+            //     name: 'UV Index Current',
+            //     type: 'bar',
+            //     marker: {color: '#693d3d'},
+            //     yaxis: 'y2',
+            // }
+
+            var layoutGraph = {
+                // barmode: 'group',
+                xaxis: {
+                    tickfont: {color: '#003b46'},
+                },
+                yaxis: {
+                    title: 'UV Index historical',
+                    titlefont: {color: '#a43820'},
+                    tickfont: {color: '#a43820'},
+                },
+                // yaxis2: {
+                //     title: 'UV Index current',
+                //     titlefont: {color: '#693d3d'},
+                //     tickfont: {color: '#693d3d'},
+                //     // overlaying: 'y',
+                //     side: 'right',
+                // },
+                paper_bgcolor: '#c4dfe6',
+                plot_bgcolor: '#c4dfe6',
+            };
+
+            Plotly.newPlot('graph', [traceHist], layoutGraph);
+            // Plotly.newPlot('graph', [traceHist, traceCurrent], layoutGraph);
+
+
+            // create gauge chart
+            let gauge = {
+                domain: {row: 0, column: 1},
+                value: 5, // extracted in todayUV.js
+                title: 'UV Index TODAY',
+                type: 'indicator',
+                mode: 'gauge+number',
+                index: true,
+                gauge: {
+                    axis: {range: [1, 16]},
+                    bar: {color: '#003B46'},
+                    steps: [
+                        {range: [1, 3], color: 'yellowgreen'},
+                        {range: [3, 6], color: 'gold'},
+                        {range: [6, 8], color: 'orange'},
+                        {range: [8, 11], color: 'red'},
+                        {range: [11, 16], color: 'darkorchid'},
+                    ]
+                }
+            };
+
+            Plotly.newPlot('gaugeChart', [gauge]);
+        });
     });
 };
 
 // start the function to load the page
 init();
-

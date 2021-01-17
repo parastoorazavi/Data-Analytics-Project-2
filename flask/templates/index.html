@@ -15,7 +15,7 @@
         integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
         crossorigin=""/>
         <!-- Our CSS -->
-        <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+        <link rel="stylesheet" type="text/css" href="static/css/style.css">
         <!-- Title (shown in browser tab)-->
         <title>UV Index for Western Australia</title>
   </head>
@@ -74,7 +74,7 @@
                         <div class='form-group'>
                             <label for='City'>Choose a City or Town</label>
                             <select class='form-control' id='City'>
-                                <option></option>
+                                <option>Perth</option>
                             </select>
                             <button id='button' type='submit' class='btn btn-default btn-block'>Submit</button>
                             <button id='button2' type='reset' class='btn btn-default btn-block'>Reset to Perth</button>
@@ -84,7 +84,7 @@
                 <div class='col-lg-9'>
                     <div class='box graph'>
                         <figure class='text-center'>
-                            <img src='../static/images/temp_graph.png' class='float-left' width='820' alt='UV_index_values'>
+                            <!-- <img src='../static/images/temp_graph.png' class='float-left' width='820' alt='UV_index_values'> -->
                             <!-- The div where we will inject our map -->
                             <div id="graph"></div>
                         </figure>
@@ -123,8 +123,8 @@
                         <figure class='text-center'>
                             <!-- the div where we inject the gauge chart -->
                             <div id='gaugeChart'></div><br>
-                            <img src='../static/images/UV-index-scale.jpg' class='float-left' width='540' alt='UV_index_values'>
-                        </figure>
+                            <img src='../static/images/UV-index-scale.jpg' class='float-left' width='600' alt='UV_index_values'>
+                        </figure><br>
                         <aside>
                             Image source: buckheadprimarycare.com
                         </aside>
