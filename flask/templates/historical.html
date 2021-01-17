@@ -31,7 +31,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="index.html">Current UV Index</a>
+                        <a class="nav-link" href="index">Current UV Index</a>
                     </li>
                     <li class="nav-item active">
                         <a class="nav-link" href="historical">Historical UV Index</a>
@@ -74,7 +74,7 @@
                         <div class='form-group'>
                             <label for='City'>Choose a City or Town</label>
                             <select class='form-control' id='City'>
-                                <option></option>
+                                <option>Perth</option>
                             </select>
                             <label for='City'>Choose a date in 2020</label>
                             <input class="form-control" id="datetime" type="text" placeholder="2020/01/01">
@@ -86,8 +86,8 @@
                 <div class='col-lg-9'>
                     <div class='box graph'>
                         <figure class='text-center'>
-                            <img src='../static/images/temp_graph.png' class='float-left' width='820' alt='UV_index_values'>
-                            <!-- The div where we will inject our map -->
+                            <!-- <img src='../static/images/temp_graph.png' class='float-left' width='820' alt='UV_index_values'> -->
+                            <!-- The div where we will inject our plot -->
                             <div id="graph"></div>
                         </figure>
                     </div>
@@ -116,8 +116,8 @@
                         <figure class='text-center'>
                             <!-- the div where we inject the gauge chart -->
                             <div id='gaugeChart'></div><br>
-                            <img src='../static/images/UV-index-scale.jpg' class='float-left' width='540' alt='UV_index_values'>
-                        </figure>
+                            <img src='../static/images/UV-index-scale.jpg' class='float-left' width='600' alt='UV_index_values'>
+                        </figure><br>
                         <aside>
                             Image source: buckheadprimarycare.com
                         </aside>

@@ -18,23 +18,110 @@ function init() {
     d3.json((info), function(data) {
         console.log('yes');
         console.log(data);
-
-        var perth = [];
-        // run through the data and add the information in dropdown
-        d3.json((cities[0]), function(city) {        
-            // going only through the cities for the dropdown
-            Object.entries(city).forEach(([key, value]) => {
-                // add one line for each sample in the dropdown menu showing the City value
-                if (key === 'city') {cityDropdown.append('option').text(value)};
-                // extract info for Perth
-                if (key === 'city' & value === 'Perth') {perth.push(city)};
-                return perth;
-                
-            });
-            console.log(perth);
-        }); 
-            
         
+        // run through the data and add the information in dropdown
+        d3.json((cities), function(city) {    
+            // empty list of cities
+            var perth = [];
+            
+            // city = city.slice(0,83); 
+            var cityList = [];
+            
+            // loop to get info from city list
+            for (i=0; i<city.length; i++) {
+                Object.entries(city[i]).forEach(([key, value]) => { 
+                    // console.log(key, value);
+                    // add one cities to the citiesList
+                    if (key === 'city') {cityList.push(value)};
+                    // extract info for Perth
+                    if (key === 'city' && value === 'Perth') {perth.push(city[i])};
+                });
+            };
+
+            console.log(perth);
+
+            // reducing the cities list for the dropdown to 83 cities
+            cityList = cityList.slice(0,83);
+            // add cites list to dropdown menu
+            cityList.forEach((City) => {
+                // ad one line for each city
+                let line = cityDropdown.append('option');
+                // log each city in the array
+                line.text(City);
+            });
+        
+            // // variables for line chart
+            var xValues = ['16-01-2020', '17-01-2020', '18-01-2020', '19-01-2020', '20-01-2020', '21-01-2020', '22-01-2020', '23-01-2020', '24-01-2020'];
+            let yValuesUV = [3, 4, 14, 6, 15, 8, 3, 4, 7];
+            var yValuesTemp = [32, 34, 37, 32, 38, 35, 38, 29, 35]
+
+            // build line chart
+            var traceCurrent = {
+                x: xValues,
+                y: yValuesUV,
+                name: 'UV Index',
+                type: 'bar',
+                marker: {color: '#a43820'},
+            };
+
+            var traceTemp = {
+                x: xValues,
+                y: yValuesTemp,
+                name: 'Max Temperature',
+                type: 'line',
+                marker: {color: '#003b46'},
+                yaxis: 'y2',
+
+            }
+
+            var layoutGraph = {
+                xaxis: {
+                    tickfont: {color: '#003b46'},
+                },
+                yaxis: {
+                    title: 'UV Index',
+                    titlefont: {color: '#a43820'},
+                    tickfont: {color: '#a43820'},
+                },
+                yaxis2: {
+                    title: 'Maximum Temperature',
+                    titlefont: {color: '#003b46'},
+                    tickfont: {color: '#003b46'},
+                    overlaying: 'y',
+                    side: 'right',
+                },
+                paper_bgcolor: '#c4dfe6',
+                plot_bgcolor: '#c4dfe6',
+            };
+
+            Plotly.newPlot('graph', [traceCurrent, traceTemp], layoutGraph);
+
+            // create gauge chart
+            let gauge = {
+                domain: {row: 0, column: 1},
+                value: 5, // extracted in todayUV.js
+                title: 'UV Index TODAY',
+                type: 'indicator',
+                mode: 'gauge+number',
+                index: true,
+                paper_bgcolor: '#c4dfe6',
+                plot_bgcolor: '#c4dfe6',
+                gauge: {
+                    axis: {range: [1, 16]},
+                    bar: {color: '#003B46'},
+                    steps: [
+                        {range: [1, 3], color: 'yellowgreen'},
+                        {range: [3, 6], color: 'gold'},
+                        {range: [6, 8], color: 'orange'},
+                        {range: [8, 11], color: 'red'},
+                        {range: [11, 16], color: 'darkorchid'},
+                    ]
+                }
+            };
+            
+
+            Plotly.newPlot('gaugeChart', [gauge]);  
+        });
         
     });
 };
