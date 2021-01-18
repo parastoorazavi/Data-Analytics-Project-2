@@ -5,7 +5,7 @@ var gridData = 'hstr_data_grid.csv'
 d3.csv(gridData, d => {
 
   // date range
-  var dateStart = '2020-11-01 12:00:00'
+  var dateStart = '2020-01-15 12:00:00'
   // var dateEnd = '2020-03-09 12:00:00'
 
   // contour layer
@@ -20,7 +20,7 @@ d3.csv(gridData, d => {
   };
   var markerLayer = L.layerGroup(dataMarkers);
 
-  // Populate a grid of n×m values.
+  // Populate a grid of n×m values.  Uses library d3-array
   var n = 7;
   var m = 5;
   var values = new Array(n * m);
@@ -42,7 +42,7 @@ d3.csv(gridData, d => {
     })};
   }
 
-  // Compute the contour polygons at intervals; returns an array of 'multiPolygon'.
+  // Compute the contour polygons at intervals; returns an array of 'multiPolygon'.  Uses library d3-contour.
   var contours = d3.contours()
     .size([n, m])
     .thresholds([0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20])
