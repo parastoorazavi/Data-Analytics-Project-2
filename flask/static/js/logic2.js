@@ -1,8 +1,8 @@
-var info = 'http://127.0.0.1:5000/api/v1.0/wa';
-var cities = 'http://127.0.0.1:5000/api/v1.0/city';
+var info = '/api/v1.0/wa';
+var cities = '/api/v1.0/city';
 
 // date for header of historical page
-n =  new Date();
+let n =  new Date();
 m = n.getMonth() + 1;
 d = n.getDate();
 y = n.setFullYear(n.getFullYear() - 1);
@@ -13,7 +13,8 @@ var cityDropdown = d3.select('#City');
 
 // function to show info when the page is loaded
 function init() {
-    console.log('hello');
+    console.log('hello init');
+    
     // extract the data from json file
     d3.json((info), function(data) {
         console.log('yes');
@@ -30,16 +31,13 @@ function init() {
             // loop to get info from city list
             for (i=0; i<city.length; i++) {
                 Object.entries(city[i]).forEach(([key, value]) => { 
-                    // console.log(key, value);
-                    // add one cities to the citiesList
+                    // add cities to the citiesList
                     if (key === 'city') {cityList.push(value)};
                     // extract info for Perth
                     if (key === 'city' && value === 'Perth') {perth.push(city[i])};
                 });
             };
-
             console.log(perth);
-    
             // reducing the cities list for the dropdown to 83 cities
             cityList = cityList.slice(0,83);
             // add cites list to dropdown menu
@@ -50,10 +48,7 @@ function init() {
                 line.text(City);
             });
 
-        
-        
             // info date format for Perth line chart
-            n =  new Date();
             var month = n.getMonth() + 1;
             var dateL = '';
           
@@ -62,48 +57,40 @@ function init() {
             
             console.log(dateL);
 
-            // var xValues = [];
-            // var yValues = [];
-            // // get current + 8 day array for plot
+            // variables for bar chart
+            var xValues = [];
+            var yValues = [];
+
+            // get current + 8 day array for plot
+            var dateFound = false;
+            var counter = 0;
+            for (i=0; i<perth.length; i++) {
+                
+                if (perth[i].date == dateL) {
+                    dateFound = true;
+                };
+                if (dateFound && counter < 9) {
+                    xValues.push(perth[i].date.split(' ')[0]);
+                    yValues.push(perth[i].uv_index);
+                    counter = counter + 1;
+                }
+                
+                if (dateFound && counter >= 9) {
+                    break;
+                }
+            };
             
-            // for (i=0; i<perth.length; i++) {
-            //     Object.entries(perth[i]).forEach(([key, value]) => { 
-            //         // console.log(key, value);
-            //         //add one cities to the citiesList
-            //         // n =0;
-            //         // console.log('here'+dateL);
-            //         if (key === date && date === dateL) {console.log(perth[i].value); //xValues.push(value);
-            //             // for (n=0; n<10; n++);
-            //             // xValues.push(date.value) && yValues.push(uv_index.value);
-            //         };
-            //         // if (n = 9) {break};
-            //     });
-            // };
-            
-            console.log(xValues)
-            
-            // // variables for line chart
-            var xValues = ['16-01-2020', '17-01-2020', '18-01-2020', '19-01-2020', '20-01-2020', '21-01-2020', '22-01-2020', '23-01-2020', '24-01-2020'];
-            var yValuesHist = [3, 4, 14, 6, 15, 8, 3, 4, 7];
-            let yValuesUV = [3, 4, 14, 15, 6, 8, 3, 4, 7];
+            console.log(xValues);
+            console.log(yValues);
 
             // build bar chart
             var traceHist = {
                 x: xValues,
-                y: yValuesHist,
+                y: yValues,
                 name: 'UV Index Historical',
-                type: 'bar',
+                type: 'line',
                 marker: {color: '#a43820'},
             };
-
-            // var traceCurrent = {
-            //     x: xValues,
-            //     y: yValuesUV,
-            //     name: 'UV Index Current',
-            //     type: 'bar',
-            //     marker: {color: '#693d3d'},
-            //     yaxis: 'y2',
-            // }
 
             var layoutGraph = {
                 // barmode: 'group',
@@ -113,21 +100,13 @@ function init() {
                 yaxis: {
                     title: 'UV Index historical',
                     titlefont: {color: '#a43820'},
-                    tickfont: {color: '#a43820'},
-                },
-                // yaxis2: {
-                //     title: 'UV Index current',
-                //     titlefont: {color: '#693d3d'},
-                //     tickfont: {color: '#693d3d'},
-                //     // overlaying: 'y',
-                //     side: 'right',
-                // },
+                    tickfont: {color: '#a43820'},   
+                },             
                 paper_bgcolor: '#c4dfe6',
                 plot_bgcolor: '#c4dfe6',
             };
 
             Plotly.newPlot('graph', [traceHist], layoutGraph);
-            // Plotly.newPlot('graph', [traceHist, traceCurrent], layoutGraph);
 
 
             // create gauge chart
@@ -158,3 +137,62 @@ function init() {
 
 // start the function to load the page
 init();
+
+// button.addEventListener('click',function(){
+    // function for updating the page
+    function updatePage() {
+        console.log('hello updatepage')
+        d3.event.preventDefault();
+        // extract the data from json file
+        d3.json((cities), function(city) {
+            console.log(city);
+            // save the City to a variable
+            var chosenCity = cityDropdown.node().value;
+           
+            console.log('chosencity ' + chosenCity);
+
+            // empty list for chosenCity info
+            var chosenCityInfoX = [];
+
+            // loop to get info from city list
+            // for (i=0; i<city.length; i++) {
+            //     // Object.entries(city[i]).forEach(([key, value]) => { 
+            //     //     // console.log('key' + key);
+            //     //     // console.log('value' + value);
+            //     //     // extract info for chosen City
+                    
+            //     //     if ((key == 'city') && (value == chosenCity)) {
+            //     //         // chosenCityInfoX.push(JSON.stringify(city[i]));
+            //     //         chosenCityInfoX.push(city[i]);
+            //     //         console.log(city[i]);
+            //     //         typeof city[i];
+            //     //     };
+            //     // });
+                
+            // };
+            city.forEach(function(res){
+                console.log(res);
+                if (res.city == chosenCity){
+                    chosenCityInfoX.push(res);
+                }
+            });
+            // console.log('chosenCityInfo' + JSON.parse(chosenCityInfoX));
+            console.log('chosenCityInfo' + chosenCityInfoX);
+
+
+        });
+    };
+
+
+// });
+
+
+
+
+// when pressing submit button or press enter, use function
+let submitButton = d3.select('#button');
+let form = d3.select('#searchForm');
+form.on('submit', updatePage);
+
+let resetButton = d3.select('#button2');
+form.on('reset', init);

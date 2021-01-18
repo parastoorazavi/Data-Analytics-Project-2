@@ -77,6 +77,7 @@ def apiwa():
         uv_index = Column(Integer)
     
     data = session.query(historical)
+    session.close()
 
     # Create a list to hold data'
 
@@ -110,6 +111,7 @@ def apicity():
         uv_index = Column(Integer)
     
     data2 = session2.query(historicalcity)
+    session2.close()
 
     # Create a list to hold data'
 
