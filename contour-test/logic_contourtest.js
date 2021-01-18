@@ -30,7 +30,7 @@ d3.csv(gridData, d => {
     }
   };
 
-  // Converts from grid coordinates (indexes) to leaflet coordinates (long, lat).
+  // Converts from grid coordinates (indexes lon-lat) to leaflet coordinates (geographic lat-lon).
   var transform = ({type, value, coordinates}) => {
     return {type, value, coordinates: coordinates.map(rings => {
       return rings.map(points => {
@@ -59,7 +59,7 @@ d3.csv(gridData, d => {
         for (var k=0; k<contours[i].coordinates[j][0].length; k++) {
             latlngs.push( contours[i].coordinates[j][0][k] );
         };
-        polygons.push(L.polygon(latlngs, {color:getColour(contours[i].value), weight:0.5, fillOpacity:0.1}));
+        polygons.push(L.polygon(latlngs, {color:getColour(contours[i].value), weight:0.5, fillOpacity:0.2}));
     };
   };
   var contourLayer = L.layerGroup(polygons);
