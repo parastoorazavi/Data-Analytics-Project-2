@@ -84,6 +84,11 @@ aside {
     font-style: italic;
 }
 
+::placeholder {
+    color: #003b46 !important;
+    opacity: 0.5;
+}
+
 button {
     background-color: #66a5ad;
     margin-top: 20px;
