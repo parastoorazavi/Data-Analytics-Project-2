@@ -1,6 +1,6 @@
-var info = '/api/v1.0/wa';
-var cities = '/api/v1.0/city';
-var citiesBackup = '../static/hstr_data_city.json'
+let info = '/api/v1.0/wa';
+let cities = '/api/v1.0/city';
+let citiesBackup = '../static/jsoncity.json'
 
 // date for header of historical page
 let n =  new Date();
@@ -21,6 +21,19 @@ function init() {
     d3.json((info), function(data) {
         console.log('yes');
         console.log(data);
+
+
+
+
+
+    // location for code for the map
+
+
+
+
+
+
+
         
         // run through the data and add the information in dropdown
         d3.json((cities), function(city) {    
@@ -153,7 +166,7 @@ function updatePage() {
     d3.event.preventDefault();
     
     // extract the data from json file
-    d3.json((citiesBackup), function(city) {
+    d3.json((cities), function(city) {
         console.log(city);
         
         // save the City to a variable
@@ -165,41 +178,10 @@ function updatePage() {
 
         for (i=0; i<city.length; i++) {            
             Object.entries(city[i]).forEach(([key, value]) => { 
-                // console.log(city[i]);
                 // extract info for chosen city
                 if (key === 'city' && value === chosenCity) {chosenCityInfo.push(city[i])}; //runs through data 5x, seems to go up everytime I redo this?
             });
-
-            // Object.keys(city[i]).forEach(function(key) {
-            //     console.log(key, city[i][key]);
-            //     chosenCityInfo.push(key, city[i][key]);
-            // });
         };
-
-                            // // loop to get info from city list
-                            // for (i=0; i<city.length; i++) {
-                            //     Object.entries(city[i]).forEach(([key, value]) => { 
-                            //         // console.log('key' + key);
-                            //         // console.log('value' + value);
-                            //         // extract info for chosen City
-                                    
-                            //         if ((key == 'city') && (value == 'Pinjarra')) {
-                            //             // chosenCityInfo.push(JSON.stringify(city[i]));
-                            //             chosenCityInfo.push(city[i]);
-                            //             // console.log(city[i]);
-                            //             // typeof city[i];
-                            //         };
-                            //     });
-                            // };
-
-
-                            // city.forEach(function(res){
-                            //     // console.log(res);
-                            //     if (res.city == chosenCity){
-                            //         chosenCityInfoX.push(res);
-                            //     }
-                            // });
-                            // console.log('chosenCityInfo' + JSON.parse(chosenCityInfoX));
         
         console.log('chosenCityInfo' + chosenCityInfo);
 
