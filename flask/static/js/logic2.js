@@ -1,5 +1,6 @@
 var info = '/api/v1.0/wa';
 var cities = '/api/v1.0/city';
+var citiesBackup = '../static/hstr_data_city.json'
 
 // date for header of historical page
 let n =  new Date();
@@ -10,6 +11,7 @@ document.getElementById("date").innerHTML = n.toLocaleString(d + m, {weekday: 'l
 
 // select the dropdown menu input
 var cityDropdown = d3.select('#City');
+var dateInput = d3.select('#datetime');
 
 // function to show info when the page is loaded
 function init() {
@@ -22,13 +24,13 @@ function init() {
         
         // run through the data and add the information in dropdown
         d3.json((cities), function(city) {    
-            // empty list of cities
-            var perth = [];
+            // empty list of perth info
+            let perth = [];
             
-            // city = city.slice(0,83); 
+            // cempty list of cities; 
             var cityList = [];
             
-            // loop to get info from city list
+            // loop to get info from city into the city and Perth arrays
             for (i=0; i<city.length; i++) {
                 Object.entries(city[i]).forEach(([key, value]) => { 
                     // add cities to the citiesList
@@ -54,8 +56,14 @@ function init() {
           
             if (month <10) {dateL = '2020-0'+ month + '-' + n.getDate() + ' 12:00:00'}
             else dateL = '2020-'+ month + '-' + n.getDate() + ' 12:00:00';
-            
-            console.log(dateL);
+
+            // set date to add to placeholder in filter search
+            var dateLastyear = '';
+            if (month <10) {dateLastyear = '2020-0'+ month + '-' + n.getDate()}
+            else dateL = '2020-'+ month + '-' + n.getDate();
+
+            // add date into placeholder
+            document.getElementById('datetime').value = dateLastyear;
 
             // variables for bar chart
             var xValues = [];
@@ -93,7 +101,6 @@ function init() {
             };
 
             var layoutGraph = {
-                // barmode: 'group',
                 xaxis: {
                     tickfont: {color: '#003b46'},
                 },
@@ -138,56 +145,101 @@ function init() {
 // start the function to load the page
 init();
 
-// button.addEventListener('click',function(){
-    // function for updating the page
-    function updatePage() {
-        console.log('hello updatepage')
-        d3.event.preventDefault();
-        // extract the data from json file
-        d3.json((cities), function(city) {
-            console.log(city);
-            // save the City to a variable
-            var chosenCity = cityDropdown.node().value;
-           
-            console.log('chosencity ' + chosenCity);
+// function for updating the page
+function updatePage() {
+    console.log('hello updatepage')
 
-            // empty list for chosenCity info
-            var chosenCityInfoX = [];
+    // prevent enter from refreshing the page
+    d3.event.preventDefault();
+    
+    // extract the data from json file
+    d3.json((citiesBackup), function(city) {
+        console.log(city);
+        
+        // save the City to a variable
+        let chosenCity = cityDropdown.node().value;
+        console.log('chosencity ' + chosenCity);
+        
+        // empty list for chosenCity info
+        var chosenCityInfo = [];
 
-            // loop to get info from city list
-            // for (i=0; i<city.length; i++) {
-            //     // Object.entries(city[i]).forEach(([key, value]) => { 
-            //     //     // console.log('key' + key);
-            //     //     // console.log('value' + value);
-            //     //     // extract info for chosen City
-                    
-            //     //     if ((key == 'city') && (value == chosenCity)) {
-            //     //         // chosenCityInfoX.push(JSON.stringify(city[i]));
-            //     //         chosenCityInfoX.push(city[i]);
-            //     //         console.log(city[i]);
-            //     //         typeof city[i];
-            //     //     };
-            //     // });
-                
-            // };
-            city.forEach(function(res){
-                console.log(res);
-                if (res.city == chosenCity){
-                    chosenCityInfoX.push(res);
-                }
+        for (i=0; i<city.length; i++) {            
+            Object.entries(city[i]).forEach(([key, value]) => { 
+                // console.log(city[i]);
+                // extract info for chosen city
+                if (key === 'city' && value === chosenCity) {chosenCityInfo.push(city[i])}; //runs through data 5x, seems to go up everytime I redo this?
             });
-            // console.log('chosenCityInfo' + JSON.parse(chosenCityInfoX));
-            console.log('chosenCityInfo' + chosenCityInfoX);
+
+            // Object.keys(city[i]).forEach(function(key) {
+            //     console.log(key, city[i][key]);
+            //     chosenCityInfo.push(key, city[i][key]);
+            // });
+        };
+
+                            // // loop to get info from city list
+                            // for (i=0; i<city.length; i++) {
+                            //     Object.entries(city[i]).forEach(([key, value]) => { 
+                            //         // console.log('key' + key);
+                            //         // console.log('value' + value);
+                            //         // extract info for chosen City
+                                    
+                            //         if ((key == 'city') && (value == 'Pinjarra')) {
+                            //             // chosenCityInfo.push(JSON.stringify(city[i]));
+                            //             chosenCityInfo.push(city[i]);
+                            //             // console.log(city[i]);
+                            //             // typeof city[i];
+                            //         };
+                            //     });
+                            // };
 
 
-        });
-    };
+                            // city.forEach(function(res){
+                            //     // console.log(res);
+                            //     if (res.city == chosenCity){
+                            //         chosenCityInfoX.push(res);
+                            //     }
+                            // });
+                            // console.log('chosenCityInfo' + JSON.parse(chosenCityInfoX));
+        
+        console.log('chosenCityInfo' + chosenCityInfo);
 
+        // extract date from filter search box
+        // save the date to a variable
+        let chosenDate = dateInput.node().value + ' 12:00:00';
+        console.log('chosendate ' + chosenDate);
+        
+        // variables for updating bar chart
+        var xValuesChosen = [];
+        var yValuesChosen = [];
 
-// });
+        // get current + 8 day array for updating plot
+        var dateFound = false;
+        var counter = 0;
+        for (i=0; i<chosenCityInfo.length; i++) {
+            
+            if (chosenCityInfo[i].date == chosenDate) {
+                dateFound = true;
+            };
+            if (dateFound && counter < 9) {
+                xValuesChosen.push(chosenCityInfo[i].date.split(' ')[0]);
+                yValuesChosen.push(chosenCityInfo[i].uv_index);
+                counter = counter + 1;
+            }
+            
+            if (dateFound && counter >= 9) {
+                break;
+            }
+        };
+        
+        console.log(xValuesChosen);
+        console.log(yValuesChosen);
 
+        // update bar chart
+        Plotly.restyle('graph', 'x', [xValuesChosen]);
+        Plotly.restyle('graph', 'y', [yValuesChosen]);
 
-
+    });
+};
 
 // when pressing submit button or press enter, use function
 let submitButton = d3.select('#button');
