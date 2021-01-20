@@ -1,0 +1,100 @@
+#map, body, html {
+    height: 100%;
+}
+
+.nav-uv {
+position: absolute;
+bottom: 0px;
+left: 20px;
+width: 350px;
+}
+
+.navbar {
+    background-color: #003b46 !important;
+}
+
+html {
+    background-color: #C4DFE6;
+}
+
+body {
+    background-color: #C4DFE6;
+}
+
+.navbar-brand {
+    color: #C4DFE6 !important;
+    background-color: #003b46;
+    padding-right: 10pt;
+    padding-left: 10pt;
+}
+
+.nav-link {
+    color: #C4DFE6 !important;
+}
+
+.active {
+    color: #66A5AD !important;
+}
+
+h1 {
+    font-size: 40pt;
+    text-align: center;
+    color: #003b46;
+    background-color: #66a5ad;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+h2 {
+    font-size: 30pt;
+    text-align: center;
+    color: #003b46;
+    
+}
+
+h3 {
+    font-size: 30pt;
+    text-align: center;
+    color: #003b46;
+    background-color: #66a5ad;
+}
+
+h4 {
+    color: #003b46;
+}
+
+p {
+    color: #003b46;
+}
+
+.card {
+    background-color: #C4DFE6;
+}
+
+.card-header {
+    font-size: 30pt;
+    text-align: center;
+    color: #003b46;
+    background-color: #66a5ad;
+}
+
+aside {
+    color: #003b46;
+    font-size: 10px;
+    font-style: italic;
+}
+
+button {
+    background-color: #66a5ad;
+    margin-top: 20px;
+    color: #003b46;
+    font-weight: bold !important;
+}
+
+.footer {
+    color: #003b46;
+    margin: 10px 0px 0px 10px;
+    position: sticky;
+    bottom: 0px;
+}
+  
