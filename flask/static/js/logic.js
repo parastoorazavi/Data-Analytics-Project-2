@@ -57,9 +57,9 @@ function init() {
             console.log(cityList);
 
             // variables for API call
-            var lat = -31.951999999999998;
-            var lon = 115.859;
-            var exclude = ['minutely','hourly','alerts'];
+            var lat = '';
+            var lon = [115.859];
+            var exclude = ['minutely','hourly','alerts','current'];
             var units = 'metric';
 
             // add cites list to dropdown menu
@@ -72,12 +72,12 @@ function init() {
                         // log each city in the array
                         line.text(value);
                     };
-                    // // extract coordinates for Perth
-                    // if (key === 'city' && value === 'Perth') {
-                    //     console.log(cityList[i]);
-                    //     if (cityList[i].key === 'latitude') {lat.push(cityList[i].value)};
-                    //     if (key === 'longitude') {lon.push(value)};
-                    // };
+                    // extract coordinates for Perth
+                    if (key === 'city' && value === 'Perth') {
+                        console.log(cityList[i]);
+                        if (cityList[i].key === 'latitude') {lat = cityList[i].value};
+                        if (key === 'longitude') {lon.push(value)};
+                    };
                 });
             };
 
@@ -85,18 +85,41 @@ function init() {
 
             // extract info from openweathermap
             var weatherAPI = `${weather}lat=${lat}&lon=${lon}&units${units}&exclude=${exclude}&appid=${API_KEY_W}`
-            
-            function ?? (weatherAPI) {
-                
-            }
-            
-
             console.log(weatherAPI);
+
+            // empty array for values
+            var xValues = [];
+            var yValuesUV = [];
+            var yValuesTemp = [];
+
+            d3.json(weatherAPI, function(response) {
+                console.log(response);
+
+                // loop to get info from json into the empty arrays
+                for (i=0; i<response.length; i++) {
+                    Object.entries(response[i]).forEach(([key, value]) => { 
+                        console.log('key ' + key);
+                        console.log('value ' + value);
+                        console.log(response[i]);
+                        // add dates to xValues
+                        if (daily.key === 'dt') {xValues.push(value)};
+                        // add UV to the UVlist
+                        if (key === 'uvi') {yValuesUV.push(value)};
+                        // add temperatures to the templist
+                        if (key === 'temp.max') {yValuesTemp.push(value)};
+                    });
+                };
+            });
+            console.log('dates ' + xValues);
+            console.log('UV ' + yValuesUV);
+            console.log('temp ' + yValuesTemp);
         
-            // // variables for line chart
-            var xValues = ['16-01-2020', '17-01-2020', '18-01-2020', '19-01-2020', '20-01-2020', '21-01-2020', '22-01-2020', '23-01-2020', '24-01-2020'];
-            let yValuesUV = [3, 4, 14, 6, 15, 8, 3, 4, 7];
-            var yValuesTemp = [32, 34, 37, 32, 38, 35, 38, 29, 35]
+
+        
+            // // // variables for line chart
+            // var xValues = ['16-01-2020', '17-01-2020', '18-01-2020', '19-01-2020', '20-01-2020', '21-01-2020', '22-01-2020', '23-01-2020', '24-01-2020'];
+            // let yValuesUV = [3, 4, 14, 6, 15, 8, 3, 4, 7];
+            // var yValuesTemp = [32, 34, 37, 32, 38, 35, 38, 29, 35]
 
 
 
@@ -144,7 +167,7 @@ function init() {
             // create gauge chart
             let gauge = {
                 domain: {row: 0, column: 1},
-                value: 5, // extracted in todayUV.js
+                value: xValues[0],
                 title: 'UV Index TODAY',
                 type: 'indicator',
                 mode: 'gauge+number',
@@ -164,7 +187,6 @@ function init() {
                 }
             };
             
-
             Plotly.newPlot('gaugeChart', [gauge]);  
         });
         
