@@ -181,7 +181,7 @@ function updatePage() {
         for (i=0; i<city.length; i++) {            
             Object.entries(city[i]).forEach(([key, value]) => { 
                 // extract info for chosen city
-                if (key === 'city' && value === chosenCity) {chosenCityInfo.push(city[i])}; //runs through data 5x, seems to go up everytime I redo this?
+                if (key === 'city' && value === chosenCity) {chosenCityInfo.push(city[i])}; 
             });
         };
         

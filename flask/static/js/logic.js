@@ -15,13 +15,12 @@ var cityDropdown = d3.select('#City');
 // function to show info when the page is loaded
 function init() {
     console.log('hello');
-    
     var myMap = L.map('map', {
         center: [-27.833, 133.583],
         zoom: 5,
         zoomControl: true,
     });
-
+    alert('hi');
     //BASEMAPS
     var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
     attribution: '&copy; <a href="http://osm.org/copyright" target = "_blank">OpenStreetMap</a> contributors'
@@ -119,7 +118,7 @@ function init() {
 
                 //Popup with content
                 var fontsizesmall = 1;
-                popup.setContent("Weatherdata:<br>" + "<img src=" + weatherconditioniconhtml + "><br>" + weatherconditionstring + " (Weather-ID: " + weatherconditionid + "): " + weatherconditiondescription + "<br><br>Temperature: " + temperaturecelsius + "°C<br>Airpressure: " + airpressure + " hPa<br>Humidity: " + airhumidity + "%" + "<br>Cloudcoverage: " + cloudcoverage + "%<br><br>Windspeed: " + windspeedkmh + " km/h<br>Wind from direction: " + winddirectionstring + " (" + winddirection + "°)" + "<br><br><font size=" + fontsizesmall + ">Datasource:<br>openweathermap.org<br>Measure time: " + weathertimenormal + "<br>Weatherstation: " + weatherstationname + "<br>Weatherstation-ID: " + weatherstationid + "<br>Weatherstation Coordinates: " + weatherlocation_lon + ", " + weatherlocation_lat);           
+                popup.setContent("Weatherdata:<br>" + "<img src=" + weatherconditioniconhtml + "><br>" + weatherconditionstring + " (Weather-ID: " + weatherconditionid + "): " + weatherconditiondescription + "<br><br> UV Index: " + uvindex + "<br><br>Temperature: " + temperaturecelsius + "°C<br>Airpressure: " + airpressure + " hPa<br>Humidity: " + airhumidity + "%" + "<br>Cloudcoverage: " + cloudcoverage + "%<br><br>Windspeed: " + windspeedkmh + " km/h<br>Wind from direction: " + winddirectionstring + " (" + winddirection + "°)" + "<br><br><font size=" + fontsizesmall + ">Datasource:<br>openweathermap.org<br>Measure time: " + weathertimenormal + "<br>Weatherstation: " + weatherstationname + "<br>Weatherstation-ID: " + weatherstationid + "<br>Weatherstation Coordinates: " + weatherlocation_lon + ", " + weatherlocation_lat);           
                 },
                 error: function() {
                     alert("error receiving wind data from openweathermap");
@@ -161,7 +160,6 @@ function init() {
         var lat = [];
         var lon = [];
         var exclude = ['minutely','hourly','alerts','current'];
-        // var units = ['metric'];
 
         // add cites list to dropdown menu
         for (i=0; i<cityList.length; i++) {
@@ -288,7 +286,7 @@ function updatePage() {
         // empty list for chosenCity info
         var chosenCityInfo = [];
 
-        for (i=0; i<city.length; i++) {            
+        for (i=0; i<84; i++) {            
             Object.entries(city[i]).forEach(([key, value]) => { 
                 // extract info for chosen city
                 if (key === 'city' && value === chosenCity) {chosenCityInfo.push(city[i])}; 
@@ -297,28 +295,14 @@ function updatePage() {
         
         console.log('chosenCityInfo' + chosenCityInfo);
 
-        // reducing the cities list for the dropdown to 83 cities
-        cityList = cityList.slice(0,83);
-        console.log(cityList);
-
         // variables for API call
         var lat = [];
         var lon = [];
         var exclude = ['minutely','hourly','alerts','current'];
-        // var units = ['metric'];
 
-        // add cites list to dropdown menu
-        for (i=0; i<cityList.length; i++) {
-            Object.entries(cityList[i]).forEach(([key, value]) => { 
-                // extract coordinates for Perth
-                if (key === 'city' && value === 'Perth') {
-                    var lat1 = (cityList[i].latitude);
-                    var lon1 = (cityList[i].longitude);
-                    lat.push(lat1);
-                    lon.push(lon1);
-                    break;
-                };
-            });
+        for (i=0; i<chosenCityInfo.length; i++) {
+            lat.push(chosenCityInfo[i].latitude);
+            lon.push(chosenCityInfo[i].longitude);
         };
 
         console.log(lat, lon);
@@ -328,23 +312,31 @@ function updatePage() {
         console.log(weatherAPI);
 
         // empty array for values
-        var xValues = [];
-        var yValuesUV = [];
-        var yValuesTemp = [];
+        var xValuesChosen = [];
+        var yValuesUVChosen = [];
+        var yValuesTempChosen = [];
 
         d3.json(weatherAPI, function(response) {
             console.log(response);
             response.daily.forEach(function(data){
                 console.log(data);
-                xValues.push(data.dt);
-                yValuesUV.push(data.uvi);
-                yValuesTemp.push(data.temp.max);
+                console.log(data.dt);
+                xValuesChosen.push(data.dt);
+                yValuesUVChosen.push(data.uvi);
+                yValuesTempChosen.push(data.temp.max);
             });
         
-            console.log('dates ' + xValues);
-            console.log('UV ' + yValuesUV);
-            console.log('temp ' + yValuesTemp);
+            console.log('dates ' + xValuesChosen);
+            console.log('UV ' + yValuesUVChosen);
+            console.log('temp ' + yValuesTempChosen);
 
+            // update uv chart
+            Plotly.restyle('graph', 'x', [xValuesChosen]);
+            Plotly.restyle('graph', 'y', [yValuesUVChosen]);
+            Plotly.restyle('graph', 'y', [yValuesTempChosen]);
+
+        });
+    });
     
 };
 
