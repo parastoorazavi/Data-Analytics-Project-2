@@ -39,27 +39,29 @@ function init() {
         //getting json function
         $(document).ready(function(){
             $.ajax({
-            url: "https://api.openweathermap.org/data/2.5/weather?lat=" + e.latlng.lat + '&lon=' + e.latlng.lng + "&appid=" + API_KEY_W,
+            url: "https://api.openweathermap.org/data/2.5/onecall?lat=" + e.latlng.lat + '&lon=' + e.latlng.lng + "&appid=" + API_KEY_W,
             dataType: 'json',
             success: function(data) {
                 // storing json data in variables
-                weatherlocation_lon = data.coord.lon; // lon WGS84
-                weatherlocation_lat = data.coord.lat; // lat WGS84
+                uvindex = data.current.uvi; // UV Index
+                weatherlocation_lon = data.lon; // lon WGS84
+                weatherlocation_lat = data.lat; // lat WGS84
                 weatherstationname = data.name // Name of Weatherstation
                 weatherstationid = data.id // ID of Weatherstation
                 weathertime = data.dt // Time of weatherdata (UTC)
-                temperature = data.main.temp; // Kelvin
-                airpressure = data.main.pressure; // hPa
-                airhumidity = data.main.humidity; // %
-                temperature_min = data.main.temp_min; // Kelvin
-                temperature_max = data.main.temp_max; // Kelvin
-                windspeed = data.wind.speed; // Meter per second
-                winddirection = data.wind.deg; // Wind from direction x degree from north
-                cloudcoverage = data.clouds.all; // Cloudcoverage in %
-                weatherconditionid = data.weather[0].id // ID
-                weatherconditionstring = data.weather[0].main // Weatheartype
-                weatherconditiondescription = data.weather[0].description // Weatherdescription
-                weatherconditionicon = data.weather[0].icon // ID of weathericon
+                temperature = data.current.temp; // Kelvin
+                airpressure = data.current.pressure; // hPa
+                airhumidity = data.current.humidity; // %
+                temperature_min = data.daily.temp_min; // Kelvin
+                temperature_max = data.daily.temp_max; // Kelvin
+                windspeed = data.current.wind_speed; // Meter per second
+                winddirection = data.current.wind_deg; // Wind from direction x degree from north
+                cloudcoverage = data.current.clouds; // Cloudcoverage in %
+
+                weatherconditionid = data.current.weather[0].id // ID
+                weatherconditionstring = data.current.weather[0].main // Weatheartype
+                weatherconditiondescription = data.current.weather[0].description // Weatherdescription
+                weatherconditionicon = data.current.weather[0].icon // ID of weathericon
 
                 // Converting Unix UTC Time
                 var utctimecalc = new Date(weathertime * 1000);
@@ -117,7 +119,7 @@ function init() {
 
                 //Popup with content
                 var fontsizesmall = 1;
-                popup.setContent("Weatherdata:<br>" + "<img src=" + weathercondtioniconhtml + "><br>" + weatherconditionstring + " (Weather-ID: " + weatherconditionid + "): " + weatherconditiondescription + "<br><br>Temperature: " + temperaturecelsius + "°C<br>Airpressure: " + airpressure + " hPa<br>Humidityt: " + airhumidity + "%" + "<br>Cloudcoverage: " + cloudcoverage + "%<br><br>Windspeed: " + windspeedkmh + " km/h<br>Wind from direction: " + winddirectionstring + " (" + winddirection + "°)" + "<br><br><font size=" + fontsizesmall + ">Datasource:<br>openweathermap.org<br>Measure time: " + weathertimenormal + "<br>Weatherstation: " + weatherstationname + "<br>Weatherstation-ID: " + weatherstationid + "<br>Weatherstation Coordinates: " + weatherlocation_lon + ", " + weatherlocation_lat);           
+                popup.setContent("Weatherdata:<br>" + "<img src=" + weathercondtioniconhtml + "><br>" + weatherconditionstring + " (Weather-ID: " + weatherconditionid + "): " + weatherconditiondescription + "<br><br>UV Index: " + uvindex + "<br><br>Temperature: " + temperaturecelsius + "°C<br>Airpressure: " + airpressure + " hPa<br>Humidityt: " + airhumidity + "%" + "<br>Cloudcoverage: " + cloudcoverage + "%<br><br>Windspeed: " + windspeedkmh + " km/h<br>Wind from direction: " + winddirectionstring + " (" + winddirection + "°)" + "<br><br><font size=" + fontsizesmall + ">Datasource:<br>openweathermap.org<br>Measure time: " + weathertimenormal + "<br>Weatherstation: " + weatherstationname + "<br>Weatherstation-ID: " + weatherstationid + "<br>Weatherstation Coordinates: " + weatherlocation_lon + ", " + weatherlocation_lat);           
                 },
                 error: function() {
                     alert("error receiving wind data from openweathermap");
