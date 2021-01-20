@@ -57,10 +57,10 @@ function init() {
             console.log(cityList);
 
             // variables for API call
-            var lat = '';
-            var lon = [115.859];
+            var lat = [];
+            var lon = [];
             var exclude = ['minutely','hourly','alerts','current'];
-            var units = 'metric';
+            // var units = ['metric'];
 
             // add cites list to dropdown menu
             for (i=0; i<cityList.length; i++) {
@@ -74,9 +74,10 @@ function init() {
                     };
                     // extract coordinates for Perth
                     if (key === 'city' && value === 'Perth') {
-                        console.log(cityList[i]);
-                        if (cityList[i].key === 'latitude') {lat = cityList[i].value};
-                        if (key === 'longitude') {lon.push(value)};
+                        var lat1 = (cityList[i].latitude);
+                        var lon1 = (cityList[i].longitude);
+                        lat.push(lat1);
+                        lon.push(lon1);
                     };
                 });
             };
@@ -84,7 +85,7 @@ function init() {
             console.log(lat, lon);
 
             // extract info from openweathermap
-            var weatherAPI = `${weather}lat=${lat}&lon=${lon}&units${units}&exclude=${exclude}&appid=${API_KEY_W}`
+            var weatherAPI = `${weather}lat=${lat}&lon=${lon}&units=metric&exclude=${exclude}&appid=${API_KEY_W}`
             console.log(weatherAPI);
 
             // empty array for values
@@ -94,100 +95,83 @@ function init() {
 
             d3.json(weatherAPI, function(response) {
                 console.log(response);
-
-                // loop to get info from json into the empty arrays
-                for (i=0; i<response.length; i++) {
-                    Object.entries(response[i]).forEach(([key, value]) => { 
-                        console.log('key ' + key);
-                        console.log('value ' + value);
-                        console.log(response[i]);
-                        // add dates to xValues
-                        if (daily.key === 'dt') {xValues.push(value)};
-                        // add UV to the UVlist
-                        if (key === 'uvi') {yValuesUV.push(value)};
-                        // add temperatures to the templist
-                        if (key === 'temp.max') {yValuesTemp.push(value)};
-                    });
-                };
-            });
-            console.log('dates ' + xValues);
-            console.log('UV ' + yValuesUV);
-            console.log('temp ' + yValuesTemp);
-        
-
-        
-            // // // variables for line chart
-            // var xValues = ['16-01-2020', '17-01-2020', '18-01-2020', '19-01-2020', '20-01-2020', '21-01-2020', '22-01-2020', '23-01-2020', '24-01-2020'];
-            // let yValuesUV = [3, 4, 14, 6, 15, 8, 3, 4, 7];
-            // var yValuesTemp = [32, 34, 37, 32, 38, 35, 38, 29, 35]
-
-
-
-            // build line chart
-            var traceCurrent = {
-                x: xValues,
-                y: yValuesUV,
-                name: 'UV Index',
-                type: 'bar',
-                marker: {color: '#a43820'},
-            };
-
-            var traceTemp = {
-                x: xValues,
-                y: yValuesTemp,
-                name: 'Max Temperature',
-                type: 'line',
-                marker: {color: '#003b46'},
-                yaxis: 'y2',
-
-            }
-
-            var layoutGraph = {
-                xaxis: {
-                    tickfont: {color: '#003b46'},
-                },
-                yaxis: {
-                    title: 'UV Index',
-                    titlefont: {color: '#a43820'},
-                    tickfont: {color: '#a43820'},
-                },
-                yaxis2: {
-                    title: 'Maximum Temperature',
-                    titlefont: {color: '#003b46'},
-                    tickfont: {color: '#003b46'},
-                    overlaying: 'y',
-                    side: 'right',
-                },
-                paper_bgcolor: '#c4dfe6',
-                plot_bgcolor: '#c4dfe6',
-            };
-
-            Plotly.newPlot('graph', [traceCurrent, traceTemp], layoutGraph);
-
-            // create gauge chart
-            let gauge = {
-                domain: {row: 0, column: 1},
-                value: xValues[0],
-                title: 'UV Index TODAY',
-                type: 'indicator',
-                mode: 'gauge+number',
-                index: true,
-                paper_bgcolor: '#c4dfe6',
-                plot_bgcolor: '#c4dfe6',
-                gauge: {
-                    axis: {range: [1, 16]},
-                    bar: {color: '#003B46'},
-                    steps: [
-                        {range: [1, 3], color: 'yellowgreen'},
-                        {range: [3, 6], color: 'gold'},
-                        {range: [6, 8], color: 'orange'},
-                        {range: [8, 11], color: 'red'},
-                        {range: [11, 16], color: 'darkorchid'},
-                    ]
-                }
-            };
+                response.daily.forEach(function(data){
+                    console.log(data);
+                    xValues.push(data.dt);
+                    yValuesUV.push(data.uvi);
+                    yValuesTemp.push(data.temp.max);
+                });
             
-            Plotly.newPlot('gaugeChart', [gauge]);  
+                console.log('dates ' + xValues);
+                console.log('UV ' + yValuesUV);
+                console.log('temp ' + yValuesTemp);
+
+                // build line chart
+                var traceCurrent = {
+                    x: xValues,
+                    y: yValuesUV,
+                    name: 'UV Index',
+                    type: 'bar',
+                    marker: {color: '#a43820'},
+                };
+
+                var traceTemp = {
+                    x: xValues,
+                    y: yValuesTemp,
+                    name: 'Max Temperature',
+                    type: 'line',
+                    marker: {color: '#003b46'},
+                    yaxis: 'y2',
+
+                }
+
+                var layoutGraph = {
+                    xaxis: {
+                        tickfont: {color: '#003b46'},
+                    },
+                    yaxis: {
+                        title: 'UV Index',
+                        titlefont: {color: '#a43820'},
+                        tickfont: {color: '#a43820'},
+                    },
+                    yaxis2: {
+                        title: 'Maximum Temperature',
+                        titlefont: {color: '#003b46'},
+                        tickfont: {color: '#003b46'},
+                        overlaying: 'y',
+                        side: 'right',
+                    },
+                    paper_bgcolor: '#c4dfe6',
+                    plot_bgcolor: '#c4dfe6',
+                };
+
+                Plotly.newPlot('graph', [traceCurrent, traceTemp], layoutGraph);
+
+                // create gauge chart
+                let gauge = {
+                    domain: {row: 0, column: 1},
+                    value: yValuesUV[0],
+                    title: 'UV Index TODAY',
+                    type: 'indicator',
+                    mode: 'gauge+number',
+                    index: true,
+                    paper_bgcolor: '#c4dfe6',
+                    plot_bgcolor: '#c4dfe6',
+                    gauge: {
+                        axis: {range: [1, 16]},
+                        bar: {color: '#003B46'},
+                        steps: [
+                            {range: [1, 3], color: 'yellowgreen'},
+                            {range: [3, 6], color: 'gold'},
+                            {range: [6, 8], color: 'orange'},
+                            {range: [8, 11], color: 'red'},
+                            {range: [11, 16], color: 'darkorchid'},
+                        ]
+                    }
+                };
+                
+                Plotly.newPlot('gaugeChart', [gauge]);  
+            });
         });
         
     });
