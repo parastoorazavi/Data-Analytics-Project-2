@@ -137,6 +137,8 @@ function init() {
                 type: 'indicator',
                 mode: 'gauge+number',
                 index: true,
+                paper_bgcolor: '#c4dfe6',
+                plot_bgcolor: '#c4dfe6',
                 gauge: {
                     axis: {range: [1, 16]},
                     bar: {color: '#003B46'},
