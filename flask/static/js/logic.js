@@ -75,7 +75,7 @@ function init() {
                 var time = date + '.' + month + '.' + year + ' ' + hour + ':' + min + ' Uhr';
 
                 // recalculating
-                var weathercondtioniconhtml = "http://openweathermap.org/img/w/" + weatherconditionicon + ".png";
+                var weatherconditioniconhtml = "http://openweathermap.org/img/w/" + weatherconditionicon + ".png";
                 var weathertimenormal = time; // reallocate time var....
                 var temperaturecelsius = Math.round((temperature - 273) * 100) / 100;  // Converting Kelvin to Celsius
                 var windspeedknots = Math.round((windspeed * 1.94) * 100) / 100; // Windspeed from m/s in Knots; Round to 2 decimals
@@ -119,7 +119,7 @@ function init() {
 
                 //Popup with content
                 var fontsizesmall = 1;
-                popup.setContent("Weatherdata:<br>" + "<img src=" + weathercondtioniconhtml + "><br>" + weatherconditionstring + " (Weather-ID: " + weatherconditionid + "): " + weatherconditiondescription + "<br><br>UV Index: " + uvindex + "<br><br>Temperature: " + temperaturecelsius + "°C<br>Airpressure: " + airpressure + " hPa<br>Humidityt: " + airhumidity + "%" + "<br>Cloudcoverage: " + cloudcoverage + "%<br><br>Windspeed: " + windspeedkmh + " km/h<br>Wind from direction: " + winddirectionstring + " (" + winddirection + "°)" + "<br><br><font size=" + fontsizesmall + ">Datasource:<br>openweathermap.org<br>Measure time: " + weathertimenormal + "<br>Weatherstation: " + weatherstationname + "<br>Weatherstation-ID: " + weatherstationid + "<br>Weatherstation Coordinates: " + weatherlocation_lon + ", " + weatherlocation_lat);           
+                popup.setContent("Weatherdata:<br>" + "<img src=" + weatherconditioniconhtml + "><br>" + weatherconditionstring + " (Weather-ID: " + weatherconditionid + "): " + weatherconditiondescription + "<br><br>Temperature: " + temperaturecelsius + "°C<br>Airpressure: " + airpressure + " hPa<br>Humidity: " + airhumidity + "%" + "<br>Cloudcoverage: " + cloudcoverage + "%<br><br>Windspeed: " + windspeedkmh + " km/h<br>Wind from direction: " + winddirectionstring + " (" + winddirection + "°)" + "<br><br><font size=" + fontsizesmall + ">Datasource:<br>openweathermap.org<br>Measure time: " + weathertimenormal + "<br>Weatherstation: " + weatherstationname + "<br>Weatherstation-ID: " + weatherstationid + "<br>Weatherstation Coordinates: " + weatherlocation_lon + ", " + weatherlocation_lat);           
                 },
                 error: function() {
                     alert("error receiving wind data from openweathermap");
@@ -140,7 +140,7 @@ function init() {
         // empty list of cities
         var perth = [];
         
-        // city = city.slice(0,83); 
+        // empty array of city info; 
         var cityList = [];
 
         // loop to get info from city list
@@ -156,7 +156,6 @@ function init() {
 
         // reducing the cities list for the dropdown to 83 cities
         cityList = cityList.slice(0,83);
-        console.log(cityList);
 
         // variables for API call
         var lat = [];
@@ -184,11 +183,8 @@ function init() {
             });
         };
 
-        console.log(lat, lon);
-
         // extract info from openweathermap
         var weatherAPI = `${weather}lat=${lat}&lon=${lon}&units=metric&exclude=${exclude}&appid=${API_KEY_W}`
-        console.log(weatherAPI);
 
         // empty array for values
         var xValues = [];
@@ -196,17 +192,11 @@ function init() {
         var yValuesTemp = [];
 
         d3.json(weatherAPI, function(response) {
-            console.log(response);
             response.daily.forEach(function(data){
-                console.log(data);
                 xValues.push(data.dt);
                 yValuesUV.push(data.uvi);
                 yValuesTemp.push(data.temp.max);
             });
-        
-            console.log('dates ' + xValues);
-            console.log('UV ' + yValuesUV);
-            console.log('temp ' + yValuesTemp);
 
             // build line chart
             var traceCurrent = {
@@ -224,7 +214,6 @@ function init() {
                 type: 'line',
                 marker: {color: '#003b46'},
                 yaxis: 'y2',
-
             }
 
             var layoutGraph = {
@@ -281,3 +270,89 @@ function init() {
 // start the function to load the page
 init();
 
+// function for updating the page
+function updatePage() {
+    console.log('hello updatepage')
+
+    // prevent enter from refreshing the page
+    d3.event.preventDefault();
+
+    // run through the data and add the information in dropdown
+    d3.json((cities), function(city) {    
+        console.log(city);
+
+         // save the City to a variable
+        let chosenCity = cityDropdown.node().value;
+        console.log('chosencity ' + chosenCity);
+        
+        // empty list for chosenCity info
+        var chosenCityInfo = [];
+
+        for (i=0; i<city.length; i++) {            
+            Object.entries(city[i]).forEach(([key, value]) => { 
+                // extract info for chosen city
+                if (key === 'city' && value === chosenCity) {chosenCityInfo.push(city[i])}; 
+            });
+        };
+        
+        console.log('chosenCityInfo' + chosenCityInfo);
+
+        // reducing the cities list for the dropdown to 83 cities
+        cityList = cityList.slice(0,83);
+        console.log(cityList);
+
+        // variables for API call
+        var lat = [];
+        var lon = [];
+        var exclude = ['minutely','hourly','alerts','current'];
+        // var units = ['metric'];
+
+        // add cites list to dropdown menu
+        for (i=0; i<cityList.length; i++) {
+            Object.entries(cityList[i]).forEach(([key, value]) => { 
+                // extract coordinates for Perth
+                if (key === 'city' && value === 'Perth') {
+                    var lat1 = (cityList[i].latitude);
+                    var lon1 = (cityList[i].longitude);
+                    lat.push(lat1);
+                    lon.push(lon1);
+                    break;
+                };
+            });
+        };
+
+        console.log(lat, lon);
+
+        // extract info from openweathermap
+        var weatherAPI = `${weather}lat=${lat}&lon=${lon}&units=metric&exclude=${exclude}&appid=${API_KEY_W}`
+        console.log(weatherAPI);
+
+        // empty array for values
+        var xValues = [];
+        var yValuesUV = [];
+        var yValuesTemp = [];
+
+        d3.json(weatherAPI, function(response) {
+            console.log(response);
+            response.daily.forEach(function(data){
+                console.log(data);
+                xValues.push(data.dt);
+                yValuesUV.push(data.uvi);
+                yValuesTemp.push(data.temp.max);
+            });
+        
+            console.log('dates ' + xValues);
+            console.log('UV ' + yValuesUV);
+            console.log('temp ' + yValuesTemp);
+
+    
+};
+
+
+// when pressing submit button or press enter, use function
+let submitButton = d3.select('#button');
+let form = d3.select('#searchForm');
+form.on('submit', updatePage);
+
+let resetButton = d3.select('#button2');
+form.on('reset', init);
