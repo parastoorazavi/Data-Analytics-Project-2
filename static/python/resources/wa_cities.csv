@@ -1,0 +1,84 @@
+city,lat,lng,country,iso2,admin_name,capital,population,population_proper
+Albany,-35.0228,117.8814,Australia,AU,Western Australia,,34205,29373
+Augusta,-34.312,115.159,Australia,AU,Western Australia,,1109,1109
+Australind,-33.2792,115.715,Australia,AU,Western Australia,,14539,14539
+Bakers Hill,-31.751,116.455,Australia,AU,Western Australia,,1118,1118
+Bentley,-32.001,115.924,Australia,AU,Western Australia,,8782,8782
+Beverley,-32.109,116.926,Australia,AU,Western Australia,,1163,1163
+Bindoon,-31.38,116.097,Australia,AU,Western Australia,,1183,1183
+Binningup,-33.149,115.689,Australia,AU,Western Australia,,1227,1227
+Boddington,-32.802,116.471,Australia,AU,Western Australia,,1198,1198
+Boyanup,-33.4861,115.73,Australia,AU,Western Australia,,1217,1217
+Bridgetown,-33.9583,116.1381,Australia,AU,Western Australia,,2812,2812
+Broome,-17.9619,122.2361,Australia,AU,Western Australia,,14445,4042
+Bullsbrook,-31.663,116.03,Australia,AU,Western Australia,,5448,5448
+Bunbury,-33.3333,115.6333,Australia,AU,Western Australia,,74363,71090
+Busselton,-33.6478,115.3458,Australia,AU,Western Australia,,25329,25329
+Cannington,-32.0167,115.95,Australia,AU,Western Australia,,5929,5929
+Capel,-33.557,115.57,Australia,AU,Western Australia,,2509,2509
+Carnarvon,-24.8672,113.6611,Australia,AU,Western Australia,,4426,4426
+Chidlow,-31.857,116.272,Australia,AU,Western Australia,,1828,1828
+Collie,-33.363,116.156,Australia,AU,Western Australia,,7192,7192
+Cowaramup,-33.85,115.11,Australia,AU,Western Australia,,1902,1902
+Dampier,-20.66,116.71,Australia,AU,Western Australia,,1104,1104
+Denmark,-34.96,117.3531,Australia,AU,Western Australia,,2558,2558
+Derby,-17.3056,123.6339,Australia,AU,Western Australia,,3325,3325
+Dongara,-29.251,114.934,Australia,AU,Western Australia,,1380,1380
+Donnybrook,-33.58,115.82,Australia,AU,Western Australia,,2824,2824
+Drummond Cove,-28.673,114.613,Australia,AU,Western Australia,,1477,1477
+Dunsborough,-33.6167,115.1,Australia,AU,Western Australia,,5320,5320
+Esperance,-33.8611,121.8919,Australia,AU,Western Australia,,12145,2144
+Exmouth,-21.9331,114.1281,Australia,AU,Western Australia,,2486,2486
+Fitzroy Crossing,-18.1944,125.5667,Australia,AU,Western Australia,,1297,1297
+Fremantle,-32.0569,115.7439,Australia,AU,Western Australia,,7459,7459
+Geraldton,-28.7744,114.6089,Australia,AU,Western Australia,,37648,37648
+Halls Creek,-18.23,127.67,Australia,AU,Western Australia,,1546,1499
+Harvey,-33.08,115.89,Australia,AU,Western Australia,,2750,2750
+Jarrahdale,-32.339,116.062,Australia,AU,Western Australia,,1192,1192
+Jurien Bay,-30.297,115.042,Australia,AU,Western Australia,,1761,1761
+Kalbarri,-27.71,114.16,Australia,AU,Western Australia,,1349,1349
+Kalgoorlie,-30.7489,121.4658,Australia,AU,Western Australia,,29849,29849
+Kambalda,-31.2,121.67,Australia,AU,Western Australia,,2539,2539
+Kambalda West,-31.2114,121.7129,Australia,AU,Western Australia,,1789,1789
+Karratha,-20.7364,116.8464,Australia,AU,Western Australia,,16708,16708
+Katanning,-33.6908,117.5553,Australia,AU,Western Australia,,3687,3687
+Kojonup,-33.84,117.15,Australia,AU,Western Australia,,1165,1165
+Kununurra,-15.7736,128.7386,Australia,AU,Western Australia,,5308,5308
+Kwinana,-32.2394,115.7702,Australia,AU,Western Australia,,20086,17549
+Leschenault,-33.245,115.735,Australia,AU,Western Australia,,2932,2932
+Lesmurdie,-31.994,116.05,Australia,AU,Western Australia,,8437,8437
+Little Grove,-35.07,117.87,Australia,AU,Western Australia,,1503,1503
+Lower Chittering,-31.556,116.087,Australia,AU,Western Australia,,2127,2127
+Lower King,-34.9578,117.9383,Australia,AU,Western Australia,,1832,1832
+Mandurah,-32.5289,115.7231,Australia,AU,Western Australia,,7837,7837
+Manjimup,-34.2411,116.1464,Australia,AU,Western Australia,,4349,4349
+Margaret River,-33.955,115.075,Australia,AU,Western Australia,,6392,6392
+Merredin,-31.482,118.279,Australia,AU,Western Australia,,2850,2850
+Moora,-30.638,116.01,Australia,AU,Western Australia,,1773,1773
+Mount Barker,-34.63,117.6669,Australia,AU,Western Australia,,1905,1905
+Mundijong,-32.284,115.973,Australia,AU,Western Australia,,1232,1232
+Narrogin,-32.936,117.178,Australia,AU,Western Australia,,4274,4274
+Newman,-23.3539,119.7319,Australia,AU,Western Australia,,4567,4567
+Northam,-31.6531,116.6661,Australia,AU,Western Australia,,6548,6548
+Nullagine,-21.888,120.107,Australia,AU,Western Australia,,1701,1701
+Paraburdoo,-23.201,117.671,Australia,AU,Western Australia,,1380,1380
+Perth,-31.9522,115.8589,Australia,AU,Western Australia,admin,2059484,2039200
+Pinjarra,-32.63,115.8711,Australia,AU,Western Australia,,4910,4910
+Port Denison,-29.2833,114.9167,Australia,AU,Western Australia,,1410,1410
+Port Hedland,-20.31,118.6011,Australia,AU,Western Australia,,14320,4180
+Quindalup,-33.6671,115.1451,Australia,AU,Western Australia,,1336,1336
+Ravenswood,-32.5833,115.833,Australia,AU,Western Australia,,2176,2176
+Serpentine,-32.365,115.981,Australia,AU,Western Australia,,1265,1265
+Tom Price,-22.6939,117.795,Australia,AU,Western Australia,,3005,3005
+Toodyay,-31.55,116.45,Australia,AU,Western Australia,,1408,1408
+Two Rocks,-31.495,115.588,Australia,AU,Western Australia,,2990,2990
+Vasse,-33.69,115.3,Australia,AU,Western Australia,,2479,2479
+Wagin,-33.3167,117.35,Australia,AU,Western Australia,,1824,1495
+Waroona,-32.8667,115.9167,Australia,AU,Western Australia,,2934,2934
+Wickham,-20.675,117.1403,Australia,AU,Western Australia,,2295,2295
+Wooroloo,-31.803,116.314,Australia,AU,Western Australia,,2642,2642
+Wundowie,-31.7667,116.383,Australia,AU,Western Australia,,1352,1352
+Yallingup,-33.6397,115.0263,Australia,AU,Western Australia,,1029,1029
+Yanchep,-31.55,115.634,Australia,AU,Western Australia,,8868,8868
+York,-31.8883,116.7686,Australia,AU,Western Australia,,2548,2535
+Yunderup,-32.5833,115.8,Australia,AU,Western Australia,,3114,3114

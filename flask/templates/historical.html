@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+        <!-- required meta tags -->
+        <meta charset="UTF-8">
+        <!-- Bootstrap -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- Plot.ly -->
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+        <!-- Load d3.js -->
+        <script src="https://d3js.org/d3.v4.js"></script>
+        <!-- Leaflet CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+        <!-- Our CSS -->
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+        <!-- Title (shown in browser tab)-->
+        <title>UV Index for Western Australia</title>
+  </head>
+
+  <body>
+        <!-- Nav bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-light">
+            <a class="navbar-brand">Historical UV Index for Western Australia</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index">Current UV Index</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="historical">Historical UV Index</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about">About</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <!-- First info -->
+            <div class='row'>
+                <div class='col-12'> 
+                    <h1>Historical UV Index Values</h1> 
+                    <h2><span id="date"></span> (last year) and the next 8 day forecast</h2>
+                </div>
+            </div>
+            <div class='row'>             
+                <div class="col-lg-12">
+                    <!-- <div class='box contour'> -->
+                        <figure class='text-center'>
+                            <img src='../static/images//temp_contour.png'>
+                            <!-- The div where we will inject our map -->
+                            <div id="map"></div>
+                        </figure>
+                    <!-- </div> -->
+                </div>
+            </div>
+            <!-- Second info -->
+            <div class='row'>
+                <div class='col-12'> <h1>Historical UV Index search</h1></div>
+            </div>
+            <div class='row'>
+                <!-- search box -->
+                <div class='col-lg-3'>
+                    <form id='searchForm'>
+                        <h3 class='text-center'>Filter Search</h3>
+                        <div class='form-group'>
+                            <label for='City'>Choose a City or Town</label>
+                            <select class='form-control' id='City'>
+                                <option>Perth</option>
+                            </select>
+                            <label for='City'>Choose a date in 2020</label>
+                            <input class="form-control" id="datetime" type="text">
+                            <button id='button' type='submit' class='btn btn-default btn-block'>Submit</button>
+                            <button id='button2' type='reset' class='btn btn-default btn-block'>Reset to Perth</button>
+                        </div>
+                    </form>
+                </div>
+                <div class='col-lg-9'>
+                    <div class='box graph'>
+                        <figure class='text-center'>
+                            <!-- <img src='../static/images/temp_graph.png' class='float-left' width='820' alt='UV_index_values'> -->
+                            <!-- The div where we will inject our plot -->
+                            <div id="graph"></div>
+                        </figure>
+                    </div>
+                </div>
+            </div>
+            <!-- Third info -->
+            <div class='row'>
+                <div class='col-12'> <h1>UV Index information</h1> </div>
+            </div>
+            <div class='row'>             
+                <div class="col-lg-6">
+                    <div class='box info'>
+                        <h4>History</h4>
+                        <p>
+                            The ultraviolet index, or UV index, is an international standard measurement of the strength of sunburn-producing ultraviolet (UV) radiation at a particular place and time. The scale was developed by Canadian scientists in 1992, and then adopted and standardized by the UN's World Health Organization and World Meteorological Organization in 1994. It is primarily used in daily forecasts aimed at the general public, and is increasingly available as an hourly forecast as well.
+                        </p>
+                        <h4>Purpose</h4>
+                        <p>
+                            The UV index is designed as an open-ended linear scale, directly proportional to the intensity of UV radiation that causes sunburn on human skin. For example, if a light-skinned individual (without sunscreen) begins to sunburn in 30 minutes at UV index 6, then that individual should expect to sunburn in about 15 minutes at UV index 12 – twice the UV, twice as fast.
+                        </p>
+                        <aside>Information source: Wikipidia</aside>
+                    </div>
+                </div>
+                <div class='col-lg-6'>
+                    <div class="box">
+                        <figure class='text-center'>
+                            <!-- the div where we inject the gauge chart -->
+                            <div id='gaugeChart'></div><br>
+                            <img src='../static/images/UV-index-scale.jpg' class='float-left' width='600' alt='UV_index_values'>
+                        </figure><br>
+                        <aside>
+                            Image source: buckheadprimarycare.com
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <footer class='footer'>
+            <p class='bottom'>Historical UV Index for Western Australia</p>
+        </footer> 
+
+    <!-- Leaflet JS-->
+    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+    integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+    crossorigin=""></script>
+    <!-- d3 JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- D3-contour JavaScript -->
+    <script src="https://d3js.org/d3-array.v2.min.js"></script>
+    <script src="https://d3js.org/d3-contour.v2.min.js"></script>  
+    <!-- Our JS -->
+    <script type="text/javascript" src="static/js/config.js"></script>
+    <script type="text/javascript" src="static/js/logic2.js"></script>
+
+  </body>
+</html>

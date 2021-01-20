@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+        <!-- required meta tags -->
+        <meta charset="UTF-8">
+        <!-- Bootstrap -->
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+        <!-- Leaflet CSS -->
+        <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+        integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+        crossorigin=""/>
+        <!-- Our CSS -->
+        <link rel="stylesheet" type="text/css" href="../static/css/style.css">
+        <!-- Title (shown in browser tab)-->
+        <title>UV Index for Western Australia</title>
+  </head>
+
+  <body>
+        <!-- Nav bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-light">
+            <a class="navbar-brand">UV Index for Western Australia</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index">Current UV Index</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="historical">Historical UV Index</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="about">About</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+        <div class="container-fluid">
+            <!-- header -->
+            <div class='row'>
+                <div class='col-12'> 
+                    <h1>OUR TEAM</h1> 
+                </div>
+            </div>
+            <!-- Team members -->
+            <div class='row'>
+                <div class='col-lg-3 col-md-6 col-sm-12 card'> 
+                    <img class='card-img-top' src='../static/images/Sylvia_Broadbent.jpg' alt='Card image'>
+                    <div class='card-body'>
+                        <h3>Sylvia Broadbent</h3>
+                        <p>
+                            After a career as a building surveyor I am now a Data Analyst with a certificate from UWA. The top three skills I learned are Python, SQL and R with many others. I love organising and data analytics even takes that a step further by allowing me to also suggest and implement improvements. 
+                        </p>
+                    </div>
+                </div>
+                <div class='col-lg-3 col-md-6 col-sm-12 card'>
+                    <img class='card-img-top' src='../static/images/anthony_elbers2.jpg' alt='Card image'>
+                    <div class='card-body'>
+                        <h3>Anthony Elbers</h3> 
+                        <p>My current job title is “Customer Relations Manager”, but I do more than look after and manage data for major customer accounts! I also identify myself as a positive leader, sales professional, thoughtful person, & most importantly a caring dad!</p>
+                    </div>
+                </div>
+                <div class='col-lg-3 col-md-6 col-sm-12 card'> 
+                    <img class='card-img-top' src='../static/images/Sandra_Teh.jpg' alt='Card image'>
+                    <div class='card-body'>
+                        <h3>Sandra Teh</h3> 
+                        <p>Management Accountant and a member of CPA with more than 10 years’ experience in both the commercial and not-for-profit sectors. Recently completed data analytics and visualization bootcamp from UWA to upskill in Excel, VBA, Python, and SQL.
+                        </p>
+                    </div>
+                </div>
+                <div class='col-lg-3 col-md-6 col-sm-12 card'> 
+                    <img class='card-img-top' src='../static/images/anthony_vanderwal.jpg' alt='Card image'>
+                    <div class='card-body'>
+                        <h3>Anthony<br>van der Wal</h3> 
+                        <p>Operations manager with a Master of Science in engineering from the University of New Brunswick and a Bachelor of Surveying from Curtin University combined with 25 years in the geoscience industry. Currently working with large and diverse teams for the safe, economic, and timely delivery of complex offshore data acquisition projects.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- footer -->
+        <footer class='footer'>
+            <p class='bottom'>About our team</p>
+        </footer> 
+
+    <!-- Leaflet JS-->
+    <script src="https://unpkg.com/leaflet@1.3.3/dist/leaflet.js"
+    integrity="sha512-tAGcCfR4Sc5ZP5ZoVz0quoZDYX5aCtEm/eu1KhSLj2c9eFrylXZknQYmxUssFaVJKvvc0dJQixhGjG2yXWiV9Q=="
+    crossorigin=""></script>
+    <!-- d3 JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <!-- D3-contour JavaScript -->
+    <script src="https://d3js.org/d3-array.v2.min.js"></script>
+    <script src="https://d3js.org/d3-contour.v2.min.js"></script>  
+    <!-- Our JS -->
+    <script type="text/javascript" src="static/js/config.js"></script>
+    <script type="text/javascript" src="../static/js/logic.js"></script>
+
+  </body>
+</html>
