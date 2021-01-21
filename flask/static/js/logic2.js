@@ -16,7 +16,6 @@ var dateInput = d3.select('#datetime');
 
 // fundtion to show map when the page is loaded
 function initMap(){
-    console.log('map init');
 
     // set grid data to variable
     var gridData = '../static/hstr_data_grid.csv'
@@ -132,15 +131,17 @@ function initMap(){
     // leaflet map
     var myMap = L.map('map', {
         center: [-20, 125],
-        zoomSnap: 0.5,
+        zoomSnap: 0.1,
         maxBounds: bounds,
-        minZoom: 5.5,
+        minZoom: 4.8,
         zoom: 5.5,
         layers: [lightmap, contourLayer]
     });
 
     // layer control containing basemaps and overlay
-    L.control.layers(baseMaps, overLay).addTo(myMap);
+    L.control.layers(baseMaps, overLay, {
+        collapsed: false,
+    }).addTo(myMap);
 
     // legend control
     var legend = L.control({ position: 'bottomright' });
@@ -187,7 +188,6 @@ function initMap(){
 
 // function to show info when the page is loaded
 function init() {
-    console.log('hello init');
     
     // extract the data from json file
     d3.json((info), function(data) {
@@ -275,9 +275,6 @@ function init() {
                     break;
                 }
             };
-            
-            console.log(xValues);
-            console.log(yValues);
 
             // build bar chart
             var traceHist = {
