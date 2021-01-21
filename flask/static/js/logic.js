@@ -297,8 +297,12 @@ function init() {
                     ]
                 }
             };
+
+            var layout = {
+                paper_bgcolor: "#C4DFE6",
+            }
             
-            Plotly.newPlot('gaugeChart', [gauge]);  
+            Plotly.newPlot('gaugeChart', [gauge], layout);  
         });
     });
 };
