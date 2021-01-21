@@ -17,9 +17,9 @@ function initMap() {
    
     var myMap = L.map('map', {
         center: [-25.328, 122.298],
-        zoomSnap: 0.5,
+        zoomSnap: 0.1,
         zoom: 5.5,
-        minZoom: 5.5,
+        minZoom: 4.8,
         zoomControl: true,
     });
     
@@ -46,7 +46,7 @@ function initMap() {
 
     // layer control containing basemaps and overlay
     L.control.layers(baseMaps).addTo(myMap);
-
+    
     var popup = L.popup();
 
     //popup function
@@ -222,19 +222,15 @@ function init() {
 
             // Converting Unix UTC Time
             for (i=0; i<xValues.length; i++) {
-                console.log(xValues[i]);
                 var utctimecalc = new Date(xValues[i] * 1000);
                 // weekday
                 var weekday = ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat','Sun'];
                 var day = weekday[utctimecalc.getDay()];
-                console.log(day);
                 // day
                 var date = utctimecalc.getDate();
-                console.log(date);
                 //month
                 var months = ['Jan','Feb','Mar','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec','12'];
                 var month = months[utctimecalc.getMonth()];
-                console.log(month);
                 // update array
                 xValues[i] = day + ' ' + date + ' ' + month + ' ';
             };
