@@ -12,19 +12,40 @@ document.getElementById("date").innerHTML = n.toLocaleString(d + m + y, {weekday
 // select the dropdown menu input
 var cityDropdown = d3.select('#City');
 
-// function to show info when the page is loaded
-function init() {
-    console.log('hello');
+// function to show map when the page is loaded
+function initMap() {
+   
     var myMap = L.map('map', {
-        center: [-27.833, 133.583],
-        zoom: 5,
+        center: [-25.328, 122.298],
+        zoomSnap: 0.5,
+        zoom: 5.5,
+        minZoom: 5.5,
         zoomControl: true,
     });
-    alert('hi');
-    //BASEMAPS
+    
+    // basemap layer
     var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
     attribution: '&copy; <a href="http://osm.org/copyright" target = "_blank">OpenStreetMap</a> contributors'
     }).addTo(myMap);
+
+    // darkmap layer
+    var darkmap = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+    attribution: 'Map data &copy; <a href=\'https://www.openstreetmap.org/\'>OpenStreetMap</a> contributors, <a href=\'https://creativecommons.org/licenses/by-sa/2.0/\'>CC-BY-SA</a>, Imagery © <a href=\'https://www.mapbox.com/\'>Mapbox</a>',
+    maxZoom: 18,
+    bounds: [[-90, -180], [90, 180]],
+    noWrap: true,
+    id: 'dark-v10',
+    accessToken: API_KEY_M
+    });
+
+    // basemaps object to hold all layers
+    var baseMaps = {
+        'Light map': osm,
+        'Dark Map': darkmap
+    };
+
+    // layer control containing basemaps and overlay
+    L.control.layers(baseMaps).addTo(myMap);
 
     var popup = L.popup();
 
@@ -132,7 +153,11 @@ function init() {
 
     //popup
     myMap.on('click', onMapClick);
+        
+};
 
+// function to show info when the page is loaded
+function init() {
 
     // run through the data and add the information in dropdown
     d3.json((cities), function(city) {    
@@ -145,7 +170,6 @@ function init() {
         // loop to get info from city list
         for (i=0; i<city.length; i++) {
             Object.entries(city[i]).forEach(([key, value]) => { 
-                // console.log(key, value);
                 // add one cities to the citiesList
                 if (key === 'city') {cityList.push(city[i])};
                 // extract info for Perth
@@ -161,7 +185,7 @@ function init() {
         var lon = [];
         var exclude = ['minutely','hourly','alerts','current'];
 
-        // add cites list to dropdown menu
+        // add cites list to dropdown menu & extract lat &
         for (i=0; i<cityList.length; i++) {
             Object.entries(cityList[i]).forEach(([key, value]) => { 
                 // add cites list to dropdown menu
@@ -195,6 +219,25 @@ function init() {
                 yValuesUV.push(data.uvi);
                 yValuesTemp.push(data.temp.max);
             });
+
+            // Converting Unix UTC Time
+            for (i=0; i<xValues.length; i++) {
+                console.log(xValues[i]);
+                var utctimecalc = new Date(xValues[i] * 1000);
+                // weekday
+                var weekday = ['Sun','Mon','Tues','Wed','Thurs','Fri','Sat','Sun'];
+                var day = weekday[utctimecalc.getDay()];
+                console.log(day);
+                // day
+                var date = utctimecalc.getDate();
+                console.log(date);
+                //month
+                var months = ['Jan','Feb','Mar','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec','12'];
+                var month = months[utctimecalc.getMonth()];
+                console.log(month);
+                // update array
+                xValues[i] = day + ' ' + date + ' ' + month + ' ';
+            };
 
             // build line chart
             var traceCurrent = {
@@ -240,7 +283,7 @@ function init() {
             let gauge = {
                 domain: {row: 0, column: 1},
                 value: yValuesUV[0],
-                title: 'UV Index TODAY',
+                title: 'UV Index TODAY<br>for your chosen City or Town',
                 type: 'indicator',
                 mode: 'gauge+number',
                 index: true,
@@ -262,26 +305,23 @@ function init() {
             Plotly.newPlot('gaugeChart', [gauge]);  
         });
     });
-        
 };
 
 // start the function to load the page
+initMap();
 init();
 
 // function for updating the page
 function updatePage() {
-    console.log('hello updatepage')
 
     // prevent enter from refreshing the page
     d3.event.preventDefault();
 
     // run through the data and add the information in dropdown
     d3.json((cities), function(city) {    
-        console.log(city);
 
          // save the City to a variable
         let chosenCity = cityDropdown.node().value;
-        console.log('chosencity ' + chosenCity);
         
         // empty list for chosenCity info
         var chosenCityInfo = [];
@@ -292,8 +332,6 @@ function updatePage() {
                 if (key === 'city' && value === chosenCity) {chosenCityInfo.push(city[i])}; 
             });
         };
-        
-        console.log('chosenCityInfo' + chosenCityInfo);
 
         // variables for API call
         var lat = [];
@@ -305,11 +343,8 @@ function updatePage() {
             lon.push(chosenCityInfo[i].longitude);
         };
 
-        console.log(lat, lon);
-
         // extract info from openweathermap
         var weatherAPI = `${weather}lat=${lat}&lon=${lon}&units=metric&exclude=${exclude}&appid=${API_KEY_W}`
-        console.log(weatherAPI);
 
         // empty array for values
         var xValuesChosen = [];
@@ -317,23 +352,17 @@ function updatePage() {
         var yValuesTempChosen = [];
 
         d3.json(weatherAPI, function(response) {
-            console.log(response);
             response.daily.forEach(function(data){
-                console.log(data);
-                console.log(data.dt);
                 xValuesChosen.push(data.dt);
                 yValuesUVChosen.push(data.uvi);
                 yValuesTempChosen.push(data.temp.max);
             });
-        
-            console.log('dates ' + xValuesChosen);
-            console.log('UV ' + yValuesUVChosen);
-            console.log('temp ' + yValuesTempChosen);
 
             // update uv chart
             Plotly.restyle('graph', 'x', [xValuesChosen]);
             Plotly.restyle('graph', 'y', [yValuesUVChosen]);
             Plotly.restyle('graph', 'y', [yValuesTempChosen]);
+            Plotly.restyle('gaugeChart', 'value', [yValuesUVChosen[0]]);
 
         });
     });
