@@ -40,16 +40,15 @@ function initMap(){
         for (var i = 0; i<cityList.length; i++) {
             cityMarkers.push(
                 L.circle([cityList[i].latitude, cityList[i].longitude], {
-                    stroke: false,
+                    stroke: true,
                     fillOpacity:0.5,
-                    color: '#A43820',
-                    fillcolor: '#A43820',
-                    radius: 5,
+                    color: '#ba5536',
+                    fillColor: 'ba5536',
+                    radius: 200,
                 }), 
             );
                 // .bindPopup('<h5>' + cityList[i].city + '</h5>'); 
         };
-        console.log(cityMarkers);
 
         // create layer group for cities
         var citiesLL = L.layerGroup(cityMarkers);        
@@ -120,12 +119,14 @@ function initMap(){
                     weight:0.5,
                     // transparent: true, 
                     // setOpacity: 0.5,
-                    fillOpacity:0.2}));
+                    // fillOpacity:0.2,
+                }));
             };
         };
         var contourLayer = L.layerGroup(polygons, {
             // transparency: true,
             // setOpacity: 0.5
+            // fillOpacity: 0.5,
         });
 
         // lightmap layer
@@ -173,7 +174,7 @@ function initMap(){
             maxBounds: bounds,
             minZoom: 4.8,
             zoom: 5.5,
-            layers: [lightmap, contourLayer]
+            layers: [contourLayer, lightmap]
         });
 
         // layer control containing basemaps and overlay
@@ -398,6 +399,7 @@ function init() {
                 };
                 var layout = {
                     paper_bgcolor: "#C4DFE6",
+                    color: '#003b46',
                 }
 
                 Plotly.newPlot('gaugeChart', [gauge], layout);

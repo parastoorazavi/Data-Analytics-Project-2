@@ -38,11 +38,12 @@ function initMap() {
         for (var i = 0; i<cityList.length; i++) {
             cityMarkers.push(
                 L.circle([cityList[i].latitude, cityList[i].longitude], {
-                    stroke: false,
+                    stroke: true,
                     fillOpacity:0.5,
-                    color: '#A43820',
-                    fillcolor: '#A43820',
-                    radius: 5,
+                    color: '#ba5536',
+                    fillColor: '#ba5536',
+                    radius: 100,
+
                 }), 
             );
                 // .bindPopup('<h5>' + cityList[i].city + '</h5>'); 
@@ -56,11 +57,21 @@ function initMap() {
             minZoom: 4.8,
             zoomControl: true,
         });
-        
-        // basemap layer
-        var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
-        attribution: '&copy; <a href="http://osm.org/copyright" target = "_blank">OpenStreetMap</a> contributors'
+
+        // lightmap layer
+        var osm = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+            attribution: 'Map data &copy; <a href=\'https://www.openstreetmap.org/\'>OpenStreetMap</a> contributors, <a href=\'https://creativecommons.org/licenses/by-sa/2.0/\'>CC-BY-SA</a>, Imagery © <a href=\'https://www.mapbox.com/\'>Mapbox</a>',
+            maxZoom: 18,
+            bounds: [[-90, -180], [90, 180]],
+            noWrap: true,
+            id: 'light-v10',
+            accessToken: API_KEY_M
         }).addTo(myMap);
+        
+        // // basemap layer
+        // var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
+        // attribution: '&copy; <a href="http://osm.org/copyright" target = "_blank">OpenStreetMap</a> contributors'
+        // }).addTo(myMap);
 
         // darkmap layer
         var darkmap = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -106,6 +117,7 @@ function initMap() {
                 url: "https://api.openweathermap.org/data/2.5/onecall?lat=" + e.latlng.lat + '&lon=' + e.latlng.lng + "&appid=" + API_KEY_W,
                 dataType: 'json',
                 success: function(data) {
+                    console.log(data);
                     // storing json data in variables
                     uvindex = data.current.uvi; // UV Index
                     weatherlocation_lon = data.lon; // lon WGS84
@@ -346,6 +358,7 @@ function init() {
 
             var layout = {
                 paper_bgcolor: "#C4DFE6",
+                color: '#003b46',
             }
             
             Plotly.newPlot('gaugeChart', [gauge], layout);  
