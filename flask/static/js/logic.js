@@ -38,11 +38,12 @@ function initMap() {
         for (var i = 0; i<cityList.length; i++) {
             cityMarkers.push(
                 L.circle([cityList[i].latitude, cityList[i].longitude], {
-                    stroke: false,
+                    stroke: true,
                     fillOpacity:0.5,
-                    color: '#A43820',
-                    fillcolor: '#A43820',
-                    radius: 5,
+                    color: '#07575b',
+                    fillColor: '#07575b',
+                    radius: 100,
+
                 }), 
             );
                 // .bindPopup('<h5>' + cityList[i].city + '</h5>'); 
@@ -50,7 +51,7 @@ function initMap() {
 
         // initiate the map
 
-        // Insert Max Boundaries to WA ///////////////////////////////////////////
+        // Insert Max Boundaries to WA 
         var southWest = L.latLng(-35, 100);
         var northEast = L.latLng(-10, 140);
         var bounds = L.latLngBounds(southWest, northEast);
@@ -155,6 +156,7 @@ function initMap() {
                 url: "https://api.openweathermap.org/data/2.5/onecall?lat=" + e.latlng.lat + '&lon=' + e.latlng.lng + "&appid=" + API_KEY_W,
                 dataType: 'json',
                 success: function(data) {
+                    console.log(data);
                     // storing json data in variables
                     uvindex = data.current.uvi; // UV Index
                     weatherlocation_lon = data.lon; // lon WGS84
@@ -395,6 +397,7 @@ function init() {
 
             var layout = {
                 paper_bgcolor: "#C4DFE6",
+                color: '#003b46',
             }
             
             Plotly.newPlot('gaugeChart', [gauge], layout);  
