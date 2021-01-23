@@ -94,6 +94,10 @@ p {
     color: #003b46;
 }
 
+li {
+    color: #003b46;
+}
+
 .infoL {
     padding: 6px 8px;
     font: 14px/16px Arial, Helvetica, sans-serif;
@@ -115,7 +119,7 @@ p {
     height: 18px;
     float: left;
     margin-right: 8px;
-    opacity: 1;
+    opacity: 0.5;
 }
 
 .card {
