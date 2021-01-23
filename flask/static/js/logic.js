@@ -49,8 +49,15 @@ function initMap() {
         };
 
         // initiate the map
+
+        // Insert Max Boundaries to WA ///////////////////////////////////////////
+        var southWest = L.latLng(-35, 100);
+        var northEast = L.latLng(-10, 140);
+        var bounds = L.latLngBounds(southWest, northEast);
+
         var myMap = L.map('map', {
             center: [-25.328, 122.298],
+            mapbounds: bounds, // Initiate max bounds
             zoomSnap: 0.1,
             zoom: 5.5,
             minZoom: 4.8,
@@ -58,9 +65,14 @@ function initMap() {
         });
         
         // basemap layer
-        var osm = L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png',{
-        attribution: '&copy; <a href="http://osm.org/copyright" target = "_blank">OpenStreetMap</a> contributors'
-        }).addTo(myMap);
+        var osm = L.tileLayer("https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}", {
+            attribution: "© <a href='https://www.mapbox.com/about/maps/'>Mapbox</a> © <a href='http://www.openstreetmap.org/copyright'>OpenStreetMap</a> <strong><a href='https://www.mapbox.com/map-feedback/' target='_blank'>Improve this map</a></strong>",
+            tileSize: 512,
+            maxZoom: 18,
+            zoomOffset: -1,
+            id: "mapbox/streets-v11",
+            accessToken: API_KEY_M
+          }).addTo(myMap);
 
         // darkmap layer
         var darkmap = L.tileLayer('https://api.mapbox.com/styles/v1/mapbox/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
@@ -74,6 +86,43 @@ function initMap() {
 
         // create layer groups
         var citiesLL = L.layerGroup(cityMarkers);
+
+        // Insert Suburb Boundaries
+            
+        var geoData = 'static/waSuburbs.geojson'
+
+
+        var geojson;
+
+        function getColor(d) {
+            return  d > 18000 ? '#800026' :
+                    d > 16000  ? '#BD0026' :
+                    d > 15000  ? '#E31A1C' :
+                    d > 14000  ? '#FC4E2A' :
+                    d > 13000   ? '#FD8D3C' :
+                    d > 12000   ? '#FEB24C' :
+                    d > 11000   ? '#FED976' :
+                    '#FFEDA0';
+        }
+
+        function style(feature) {
+            return {
+                fillColor: getColor(feature.properties.lc_ply_pid),
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.8
+            };
+        }
+
+        // // Use D3 to read the data into Leaflet
+            d3.json(geoData, function(data){
+                L.geoJson(data, {
+                    style: style,
+        // onEachFeature: onEachFeature
+                }).addTo(myMap);
+            });
 
         // basemaps object to hold all layers
         var baseMaps = {
