@@ -42,8 +42,8 @@ function initMap(){
                 L.circle([cityList[i].latitude, cityList[i].longitude], {
                     stroke: true,
                     fillOpacity:0.5,
-                    color: '#ba5536',
-                    fillColor: 'ba5536',
+                    color: '#07575b',
+                    fillColor: '07575b',
                     radius: 200,
                 }), 
             );
