@@ -48,7 +48,7 @@ function init() {
                 weatherlocation_lat = data.lat; // lat WGS84
                 weatherstationname = data.name // Name of Weatherstation
                 weatherstationid = data.id // ID of Weatherstation
-                weathertime = data.dt // Time of weatherdata (UTC)
+                weathertime = data.current.dt // Time of weatherdata (UTC)
                 temperature = data.current.temp; // Kelvin
                 airpressure = data.current.pressure; // hPa
                 airhumidity = data.current.humidity; // %
@@ -72,7 +72,7 @@ function init() {
                 var hour = utctimecalc.getHours();
                 var min = utctimecalc.getMinutes();
                 var sec = utctimecalc.getSeconds();
-                var time = date + '.' + month + '.' + year + ' ' + hour + ':' + min + ' Uhr';
+                var time = date + '.' + month + '.' + year + ' ' + hour + ':' + min;
 
                 // recalculating
                 var weatherconditioniconhtml = "http://openweathermap.org/img/w/" + weatherconditionicon + ".png";
