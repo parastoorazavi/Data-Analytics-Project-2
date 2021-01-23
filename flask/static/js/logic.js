@@ -37,7 +37,7 @@ function initMap() {
 
         for (var i = 0; i<cityList.length; i++) {
             cityMarkers.push(
-                L.circle([cityList[i].latitude, cityList[i].longitude], {
+                L.marker([cityList[i].latitude, cityList[i].longitude], {
                     stroke: true,
                     fillOpacity:0.5,
                     color: '#07575b',
@@ -163,7 +163,7 @@ function initMap() {
                     weatherlocation_lat = data.lat; // lat WGS84
                     weatherstationname = data.name // Name of Weatherstation
                     weatherstationid = data.id // ID of Weatherstation
-                    weathertime = data.dt // Time of weatherdata (UTC)
+                    weathertime = data.current.dt // Time of weatherdata (UTC)
                     temperature = data.current.temp; // Kelvin
                     airpressure = data.current.pressure; // hPa
                     airhumidity = data.current.humidity; // %
