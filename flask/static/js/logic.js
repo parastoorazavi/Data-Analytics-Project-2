@@ -42,7 +42,7 @@ function initMap() {
                     fillOpacity:0.5,
                     color: '#07575b',
                     fillColor: '#07575b',
-                    radius: 100,
+                    radius: 200,
 
                 }), 
             );

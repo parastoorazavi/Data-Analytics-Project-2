@@ -119,7 +119,7 @@ function initMap(){
                     weight:0.5,
                     // transparent: true, 
                     // setOpacity: 0.5,
-                    // fillOpacity:0.2,
+                    fillOpacity:0.1,
                 }));
             };
         };
